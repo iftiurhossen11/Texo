@@ -12,6 +12,10 @@ router = APIRouter(tags=["health"])
 async def health() -> dict[str, str | bool]:
     return {
         "status": "ok",
-        "embedding_model": settings.embedding_model,
+        "embedding_model": (
+            settings.cloudflare_embedding_model
+            if settings.embedding_backend == "cloudflare"
+            else settings.embedding_model
+        ),
         "embedding_model_loaded": embedder.is_model_loaded(),
     }

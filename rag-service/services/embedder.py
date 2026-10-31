@@ -30,6 +30,11 @@ _model: SentenceTransformer | None = None
 def get_model() -> SentenceTransformer:
     global _model
     if _model is None:
+        if settings.embedding_backend != "sentence_transformers":
+            raise RuntimeError(
+                f"Local model access is unavailable for backend '{settings.embedding_backend}'."
+            )
+
         from sentence_transformers import SentenceTransformer
 
         logger.info("Loading embedding model: %s", settings.embedding_model)
@@ -42,9 +47,22 @@ def is_model_loaded() -> bool:
     return _model is not None
 
 
+def _cloudflare_enabled() -> bool:
+    if settings.embedding_backend == "cloudflare":
+        return True
+    if settings.embedding_backend != "sentence_transformers":
+        raise RuntimeError(f"Unsupported embedding backend: {settings.embedding_backend}")
+    return False
+
+
 def embed_passages(texts: list[str]) -> list[list[float]]:
     if not texts:
         return []
+    if _cloudflare_enabled():
+        from services.cloudflare_embeddings import embed_texts
+
+        return embed_texts(texts)
+
     prefixed = [f"passage: {text}" for text in texts]
     model = get_model()
     vectors = model.encode(prefixed, normalize_embeddings=True, show_progress_bar=False)
@@ -52,6 +70,11 @@ def embed_passages(texts: list[str]) -> list[list[float]]:
 
 
 def embed_query(query: str) -> list[float]:
+    if _cloudflare_enabled():
+        from services.cloudflare_embeddings import embed_query as cloudflare_embed_query
+
+        return cloudflare_embed_query(query)
+
     model = get_model()
     vector = model.encode(
         f"query: {query}",

@@ -3,23 +3,26 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
-
-import chromadb
-from chromadb.api.models.Collection import Collection
+from typing import TYPE_CHECKING, Any
 
 from config import settings
+
+if TYPE_CHECKING:
+    import chromadb
+    from chromadb.api.models.Collection import Collection
 
 logger = logging.getLogger(__name__)
 
 COLLECTION_NAME = "texo_documents"
-_client: chromadb.PersistentClient | None = None
-_collection: Collection | None = None
+_client: Any = None
+_collection: Any = None
 
 
 def get_client() -> chromadb.PersistentClient:
     global _client
     if _client is None:
+        import chromadb
+
         _client = chromadb.PersistentClient(path=settings.chroma_persist_dir)
     return _client
 
@@ -41,6 +44,13 @@ def get_collection() -> Collection:
 
 
 def delete_by_document_id(document_id: int) -> int:
+    if settings.vector_store_backend == "postgres":
+        from services.pg_vector_store import delete_by_document_id as delete_from_postgres
+
+        return delete_from_postgres(document_id)
+    if settings.vector_store_backend != "chroma":
+        raise RuntimeError(f"Unsupported vector store backend: {settings.vector_store_backend}")
+
     collection = get_collection()
     existing = collection.get(where={"document_id": document_id}, include=[])
     ids = existing.get("ids") or []
@@ -56,6 +66,13 @@ def upsert_chunks(
     chunks: list[dict[str, Any]],
     embeddings: list[list[float]],
 ) -> list[str]:
+    if settings.vector_store_backend == "postgres":
+        from services.pg_vector_store import upsert_chunks as upsert_to_postgres
+
+        return upsert_to_postgres(document_id, doc_type, department, chunks, embeddings)
+    if settings.vector_store_backend != "chroma":
+        raise RuntimeError(f"Unsupported vector store backend: {settings.vector_store_backend}")
+
     collection = get_collection()
     ids: list[str] = []
     documents: list[str] = []
@@ -92,6 +109,19 @@ def query_similar(
     document_id_filter: int | None = None,
     allowed_departments: list[str] | None = None,
 ) -> list[dict[str, Any]]:
+    if settings.vector_store_backend == "postgres":
+        from services.pg_vector_store import query_similar as query_postgres
+
+        return query_postgres(
+            query_embedding,
+            top_k,
+            doc_type_filter,
+            document_id_filter,
+            allowed_departments,
+        )
+    if settings.vector_store_backend != "chroma":
+        raise RuntimeError(f"Unsupported vector store backend: {settings.vector_store_backend}")
+
     collection = get_collection()
     where: dict[str, Any] | None = None
 
@@ -142,6 +172,13 @@ def query_similar(
 
 
 def count_vectors_for_document(document_id: int) -> int:
+    if settings.vector_store_backend == "postgres":
+        from services.pg_vector_store import count_vectors_for_document as count_postgres
+
+        return count_postgres(document_id)
+    if settings.vector_store_backend != "chroma":
+        raise RuntimeError(f"Unsupported vector store backend: {settings.vector_store_backend}")
+
     collection = get_collection()
     existing = collection.get(where={"document_id": document_id}, include=[])
     return len(existing.get("ids") or [])

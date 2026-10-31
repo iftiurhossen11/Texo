@@ -8,11 +8,15 @@ RUN apt-get update \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
-COPY . .
+COPY backend-laravel/ ./
+COPY ["Project Demo Document/", "/var/www/Project Demo Document/"]
+COPY backend-laravel/entrypoint.sh /usr/local/bin/texo-entrypoint
 
 RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader \
-    && mkdir -p bootstrap/cache storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs
+    && mkdir -p bootstrap/cache storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs storage/app/private \
+    && sed -i 's/\r$//' /usr/local/bin/texo-entrypoint \
+    && chmod +x /usr/local/bin/texo-entrypoint
 
 EXPOSE 10000
 
-CMD ["sh", "-c", "mkdir -p \"$(dirname \"${DB_DATABASE:-/var/data/database.sqlite}\")\" && touch \"${DB_DATABASE:-/var/data/database.sqlite}\" && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=\"${PORT:-10000}\""]
+ENTRYPOINT ["/usr/local/bin/texo-entrypoint"]

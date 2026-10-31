@@ -6,13 +6,28 @@ from typing import AsyncIterator
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from config import settings
 from routers import documents, health, ingest, retrieve
 from services import embedder
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
-    embedder.get_model()
+    if settings.embedding_backend == "sentence_transformers":
+        embedder.get_model()
+    elif settings.embedding_backend == "cloudflare":
+        if not settings.cloudflare_account_id or not settings.cloudflare_api_token:
+            raise RuntimeError("Cloudflare embedding credentials are required.")
+    else:
+        raise RuntimeError(f"Unsupported embedding backend: {settings.embedding_backend}")
+
+    if settings.vector_store_backend == "postgres":
+        from services.pg_vector_store import ensure_schema
+
+        ensure_schema()
+    elif settings.vector_store_backend != "chroma":
+        raise RuntimeError(f"Unsupported vector store backend: {settings.vector_store_backend}")
+
     yield
 
 
