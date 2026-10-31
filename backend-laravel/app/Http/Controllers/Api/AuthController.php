@@ -3,13 +3,41 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    public function register(Request $request): JsonResponse
+    {
+        $request->merge([
+            'email' => Str::lower((string) $request->input('email')),
+        ]);
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'confirmed', Password::min(12)->max(128)],
+        ]);
+
+        $user = User::query()->create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => $validated['password'],
+            'role' => 'employee',
+        ]);
+
+        return response()->json([
+            'token' => $user->createToken('texo-web')->plainTextToken,
+            'user' => $user,
+        ], 201);
+    }
+
     public function login(Request $request): JsonResponse
     {
         $credentials = $request->validate([
@@ -17,7 +45,7 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $user = \App\Models\User::query()->where('email', $credentials['email'])->first();
+        $user = User::query()->where('email', Str::lower($credentials['email']))->first();
 
         if ($user === null || ! Hash::check($credentials['password'], $user->password)) {
             throw ValidationException::withMessages([
