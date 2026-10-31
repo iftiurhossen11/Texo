@@ -10,6 +10,12 @@ class DemoUserSeeder extends Seeder
 {
     public function run(): void
     {
+        if (! app()->environment(['local', 'testing'])) {
+            $this->command?->warn('Demo user accounts are disabled outside local and testing environments.');
+
+            return;
+        }
+
         foreach ([
             ['email' => 'qa@texo.com', 'name' => 'QA Manager', 'role' => 'qa'],
             ['email' => 'compliance@texo.com', 'name' => 'Compliance Officer', 'role' => 'compliance'],
