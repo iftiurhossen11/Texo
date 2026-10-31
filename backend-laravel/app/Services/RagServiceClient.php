@@ -18,7 +18,8 @@ class RagServiceClient
         $url = rtrim(config('services.rag.url'), '/').'/ingest';
 
         $request = Http::timeout(self::TIMEOUT_SECONDS)
-            ->retry(2, 500, throw: false);
+            ->retry(2, 500, throw: false)
+            ->withHeaders($this->ragHeaders());
 
         if ($sourceUrl !== null) {
             $response = $request->asMultipart()->post($url, [
@@ -66,6 +67,7 @@ class RagServiceClient
 
         $response = Http::timeout(self::TIMEOUT_SECONDS)
             ->retry(2, 500, throw: false)
+            ->withHeaders($this->ragHeaders())
             ->post($url, array_filter([
                 'query' => $query,
                 'top_k' => $topK,
@@ -93,6 +95,7 @@ class RagServiceClient
 
         $response = Http::timeout(self::TIMEOUT_SECONDS)
             ->retry(2, 500, throw: false)
+            ->withHeaders($this->ragHeaders())
             ->delete($url);
 
         if ($response->failed()) {
@@ -119,5 +122,14 @@ class RagServiceClient
         }
 
         return 'error';
+    }
+
+    private function ragHeaders(): array
+    {
+        $token = config('services.rag.api_token');
+
+        return is_string($token) && $token !== ''
+            ? ['X-RAG-API-Token' => $token]
+            : [];
     }
 }

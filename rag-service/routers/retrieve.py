@@ -4,14 +4,15 @@ from __future__ import annotations
 
 import logging
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
 from config import settings
 from models.schemas import RetrieveRequest, RetrieveResponse, RetrieveResult
+from security import require_rag_api_token
 from services import embedder, vector_store
 
 logger = logging.getLogger(__name__)
-router = APIRouter(tags=["retrieve"])
+router = APIRouter(tags=["retrieve"], dependencies=[Depends(require_rag_api_token)])
 
 
 @router.post("/retrieve", response_model=RetrieveResponse)

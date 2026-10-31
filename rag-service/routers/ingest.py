@@ -4,13 +4,14 @@ from __future__ import annotations
 
 import logging
 
-from fastapi import APIRouter, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 
 from models.schemas import IngestErrorResponse, IngestResponse
+from security import require_rag_api_token
 from services import chunker, embedder, extractor, vector_store
 
 logger = logging.getLogger(__name__)
-router = APIRouter(tags=["ingest"])
+router = APIRouter(tags=["ingest"], dependencies=[Depends(require_rag_api_token)])
 
 
 async def _process_ingest(

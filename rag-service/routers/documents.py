@@ -4,12 +4,13 @@ from __future__ import annotations
 
 import logging
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
+from security import require_rag_api_token
 from services import vector_store
 
 logger = logging.getLogger(__name__)
-router = APIRouter(tags=["documents"])
+router = APIRouter(tags=["documents"], dependencies=[Depends(require_rag_api_token)])
 
 
 @router.delete("/documents/{document_id}")
