@@ -1,0 +1,14 @@
+TEXO FACTORY MAINTENANCE ENGINEERING - OPERATING GUIDE
+
+Purpose
+Maintenance Engineering plans and performs inspections, servicing, adjustments, repairs, and equipment restoration for production machinery and supporting utilities. Work should protect people and equipment, restore the specified function, and generate records that help prevent repeated failures.
+
+Roles and coordination
+The Maintenance Manager plans preventive work and approves priorities; engineers diagnose complex issues and define technical controls; technicians complete authorized tasks; production teams report symptoms and coordinate safe access; and stores maintain traceable critical spares.
+
+Preventive and corrective work
+Use the approved asset schedule and machine-specific checklist. Record inspection findings, lubrication or replacement tasks, readings, and exceptions. For breakdowns, open a work order, assess hazards, isolate energy using the approved site procedure, diagnose the cause, document parts and repairs, perform functional tests, and obtain authorized release before production resumes.
+
+Review recurring failures, downtime, spare consumption, and overdue tasks to prioritize improvement. Do not bypass guards, interlocks, or isolation procedures to meet a production target. Retain equipment history and update the maintenance plan when a justified engineering change is approved.
+
+Reference: https://en.wikipedia.org/wiki/Maintenance_(technical)

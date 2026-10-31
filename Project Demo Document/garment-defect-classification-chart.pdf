@@ -1,0 +1,52 @@
+%PDF-1.4
+% Texo searchable demo document
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 1182 >>
+stream
+BT /F2 16 Tf 54 748 Td (Garment Defect Classification Chart) Tj ET
+BT /F1 10 Tf 54 729 Td (Department: Quality Assurance) Tj ET
+BT /F1 10 Tf 54 715 Td (Based on BKMEA Quality Control Standard) Tj ET
+BT /F1 10 Tf 54 692 Td (Critical Defects \(Zero Tolerance\):) Tj ET
+BT /F1 10 Tf 54 669 Td (- Needle breakage in garment) Tj ET
+BT /F1 10 Tf 54 655 Td (- Sharp object in garment) Tj ET
+BT /F1 10 Tf 54 641 Td (- Wrong size label on export carton) Tj ET
+BT /F1 10 Tf 54 627 Td (Major Defects \(AQL < 2.5%\):) Tj ET
+BT /F1 10 Tf 54 604 Td (- Broken stitch) Tj ET
+BT /F1 10 Tf 54 590 Td (- Open seam) Tj ET
+BT /F1 10 Tf 54 576 Td (- Uneven stitch density) Tj ET
+BT /F1 10 Tf 54 562 Td (- Needle mark on fabric) Tj ET
+BT /F1 10 Tf 54 548 Td (- Color bleeding) Tj ET
+BT /F1 10 Tf 54 534 Td (Minor Defects \(AQL < 4.0%\):) Tj ET
+BT /F1 10 Tf 54 511 Td (- Loose thread) Tj ET
+BT /F1 10 Tf 54 497 Td (- Minor stain) Tj ET
+BT /F1 10 Tf 54 483 Td (- Uneven hem) Tj ET
+BT /F1 10 Tf 54 469 Td (Inspection Action:) Tj ET
+BT /F1 10 Tf 54 446 Td (- Major/Critical: Tag as defective, move to rejection bin, notify supervisor.) Tj ET
+BT /F1 10 Tf 54 432 Td (- Minor: Record and send for repair.) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000041 00000 n 
+0000000090 00000 n 
+0000000147 00000 n 
+0000000283 00000 n 
+0000001517 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1592
+%%EOF

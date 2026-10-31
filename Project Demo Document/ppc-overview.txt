@@ -1,0 +1,12 @@
+TEXO FACTORY PPC - DEPARTMENT GUIDE
+
+Purpose
+Production Planning and Control matches confirmed orders with available production capacity, people, materials, machines, and delivery dates. Its schedule depends on current order specifications, routing, material status, line capability, maintenance constraints, and quality requirements.
+
+Typical roles
+PPC Managers set priorities and planning rules; planners prepare line and machine schedules; coordinators check material readiness and production status; and production supervisors report actual capacity and constraints.
+
+Planning routine
+Validate the approved order and product version, calculate required process loads, confirm material availability, allocate production, publish the controlled schedule, and compare actual progress with planned milestones. Record revisions, assumptions, and approvals. Escalate shortages or delays early and agree recovery options with affected teams.
+
+References: https://en.wikipedia.org/wiki/Production_planning ; https://en.wikipedia.org/wiki/Supply_chain_management

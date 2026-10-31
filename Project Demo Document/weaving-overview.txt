@@ -1,0 +1,12 @@
+TEXO FACTORY WEAVING - DEPARTMENT GUIDE
+
+Purpose and process
+Weaving interlaces lengthwise warp yarns with crosswise weft yarns to create fabric. The selected weave and yarn combination affect appearance and performance. Each order should follow its approved construction, loom plan, yarn specification, and inspection criteria.
+
+Typical roles
+The Weaving Manager schedules looms; supervisors verify beam and machine readiness; technicians support setup and repair; operators monitor running condition and fabric formation; and inspectors record roll quality and defects.
+
+Production controls
+Confirm yarn codes and lots, weave plan, loom assignment, approved sample, and target dimensions. Check the first-off fabric before bulk running; monitor broken yarns, missing or extra picks, contamination, and width variation; identify affected roll ranges; and hold nonconforming output for authorized disposition.
+
+References: https://en.wikipedia.org/wiki/Weaving ; https://en.wikipedia.org/wiki/Textile_manufacturing

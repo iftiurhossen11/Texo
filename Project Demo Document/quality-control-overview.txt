@@ -1,0 +1,14 @@
+TEXO FACTORY QUALITY CONTROL - DEPARTMENT GUIDE
+
+Purpose and responsibilities
+Quality Control verifies that incoming materials, in-process output, and finished goods meet approved specifications. Inspection is one control; reliable quality also requires defined methods, trained personnel, traceable records, and clear acceptance or escalation criteria.
+
+Typical roles
+The QA Manager owns the inspection plan and disposition authority; incoming inspectors check materials; process inspectors monitor defined production checkpoints; final inspectors examine finished goods; and laboratory staff perform specified tests.
+
+Inspection workflow
+Confirm the order version, sample plan, measuring equipment status, defect definitions, and acceptance criteria before inspection. Identify the lot and sample, record observed defects consistently, segregate nonconforming items, and report results to the authorized decision-maker. Rework or release requires documented disposition and verification.
+
+Use the buyer-approved specification and applicable quality manual for sampling rules; this guide does not set an acceptance limit. Maintain lot traceability, calibration records, defect trends, corrective actions, and re-inspection evidence.
+
+References: https://en.wikipedia.org/wiki/Quality_control ; https://en.wikipedia.org/wiki/Textile_manufacturing

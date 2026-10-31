@@ -1,0 +1,12 @@
+TEXO FACTORY STORE AND WAREHOUSE - DEPARTMENT GUIDE
+
+Purpose
+Stores and Warehousing receives and protects raw materials, trims, chemicals, spare parts, work in progress, and finished goods. Reliable records link physical quantities and locations to item codes, supplier lots, purchase orders, production orders, and shipment references.
+
+Typical roles
+The Warehouse Manager controls space, safety, and inventory accuracy; receiving officers verify delivery documents and condition; storekeepers manage labeled locations and controlled issues; and dispatch staff reconcile picked goods to approved shipment documents.
+
+Material flow
+Receive against an approved order, count and inspect, record discrepancies, identify the lot, and place material in its designated status and location. Issue only against an authorized requisition and record quantity, recipient, time, and intended order. Use the site's approved stock-rotation rule, protect goods from damage, and separate quarantined or rejected items from available stock.
+
+References: https://en.wikipedia.org/wiki/Warehouse ; https://en.wikipedia.org/wiki/Supply_chain_management

@@ -1,0 +1,14 @@
+TEXO FACTORY SUPPLY CHAIN AND PROCUREMENT - OPERATING GUIDE
+
+Purpose
+Supply Chain connects customer demand with supplier sourcing, purchasing, inbound logistics, inventory, production, and delivery. The goal is to have the right approved material in the right quantity and location at the required time while preserving traceability and controlling cost and supply risk.
+
+Typical roles
+Supply Chain Managers coordinate planning and supplier performance; procurement officers obtain quotations and issue authorized purchase orders; material planners calculate demand and lead times; merchandisers maintain the customer specification and approvals; warehouse teams receive and record stock; and logistics coordinators track transport and delivery documents.
+
+Purchase workflow
+Start from an approved demand or requisition; verify item code, specification, quantity, need date, and budget; compare qualified suppliers and documented offers; record approvals and terms; issue a controlled purchase order; track supplier confirmation and dispatch; and match received goods to the order and inspection status.
+
+When shortages, late shipments, specification changes, or quality holds arise, record the affected order and quantity, assess schedule impact with PPC, and obtain an approved recovery plan. Do not substitute material without technical and buyer approval. Reconcile final receipt and close the order with traceable records.
+
+References: https://en.wikipedia.org/wiki/Supply_chain_management ; https://en.wikipedia.org/wiki/Procurement

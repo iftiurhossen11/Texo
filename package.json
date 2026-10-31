@@ -1,0 +1,19 @@
+{
+  "name": "texo",
+  "version": "1.0.0",
+  "description": "AI Knowledge Assistant for Bangladesh's Textile & Apparel Industry — exhibition proof-of-concept for the Digital Transformation Zone (5 September 2026).",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "playwright": "^1.64.1"
+  }
+}

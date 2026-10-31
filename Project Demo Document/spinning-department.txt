@@ -1,0 +1,12 @@
+TEXO FACTORY SPINNING - OPERATING GUIDE
+
+Purpose
+Spinning transforms prepared fibers into yarn by drawing fibers into a thinner strand, adding twist, and winding the yarn into a package. A cotton route can include opening and blending, cleaning, carding, drawing, roving where used, spinning, winding, and package inspection. The exact route depends on fiber, yarn count, equipment, and approved product specification.
+
+Roles
+The Spinning Manager plans production and confirms the yarn specification; process supervisors monitor each stage; technicians maintain machine settings and quality checks; operators watch material flow, ends down, contamination, and package condition; and QA tests required yarn properties.
+
+Process controls
+Verify fiber and blend identity, lot traceability, machine card, target yarn count and twist, and approved sampling plan. Record stage settings and test results under the controlled process sheet. Segregate contamination, unevenness, weak yarn, or package defects; identify the affected machine and time range; and notify the supervisor for disposition.
+
+References: https://en.wikipedia.org/wiki/Spinning_(textiles) ; https://en.wikipedia.org/wiki/Textile_manufacturing

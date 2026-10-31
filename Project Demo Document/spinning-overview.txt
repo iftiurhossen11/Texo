@@ -1,0 +1,12 @@
+TEXO FACTORY SPINNING - DEPARTMENT GUIDE
+
+Purpose and process
+Spinning draws and twists fibers into yarn, then winds the yarn into packages for downstream use. A common cotton route includes fiber opening and cleaning, carding, drawing, optional roving, spinning, winding, and package inspection. Product specifications and machine routes vary with fiber and yarn requirements.
+
+Typical roles
+The Spinning Manager plans output; supervisors coordinate process stages; technicians maintain machine settings; operators monitor material flow and yarn breaks; and QA staff check specified yarn properties and package quality.
+
+Production checks
+Confirm fiber identity, blend and lot, target yarn specification, and approved process card. Record settings and test results, trace packages to machine and shift, and segregate contamination or yarn faults for authorized review.
+
+References: https://en.wikipedia.org/wiki/Spinning_(textiles) ; https://en.wikipedia.org/wiki/Textile_manufacturing

@@ -1,0 +1,12 @@
+TEXO FACTORY MAINTENANCE ENGINEERING - DEPARTMENT GUIDE
+
+Purpose
+Maintenance keeps machinery, utilities, and facilities in a serviceable condition through inspection, servicing, adjustment, repair, and replacement. Planned and condition-based work can reduce unplanned stops, but every task must follow approved machine-specific safety and isolation procedures.
+
+Typical roles
+The Maintenance Manager prioritizes work and resources; mechanical and electrical engineers plan technical work; technicians perform authorized inspections and repairs; and production operators report abnormal noise, vibration, temperature, leakage, guarding, or performance.
+
+Work-order process
+Log the asset, symptom, production impact, and time; assess risk and assign priority; authorize safe isolation; diagnose the fault; record parts and work performed; test the machine under approved conditions; and obtain production acceptance before return to service. Close the work order with cause, corrective action, and follow-up date.
+
+Reference: https://en.wikipedia.org/wiki/Maintenance_(technical)

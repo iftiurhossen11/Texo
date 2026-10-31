@@ -1,0 +1,14 @@
+TEXO FACTORY QUALITY CONTROL - OPERATING GUIDE
+
+Purpose
+Quality Control provides objective evidence that a lot or process meets the approved buyer and factory specification. Inspection plans, defect classifications, sampling levels, and acceptance criteria must come from the controlled order documents and applicable quality manual; never invent or substitute a limit.
+
+Roles
+The QA Manager approves the inspection plan and nonconformance disposition. Incoming inspectors check fabric, yarn, trims, and packaging; in-line inspectors monitor defined process points; final inspectors verify finished goods; and laboratory staff conduct required tests using controlled methods and calibrated equipment.
+
+Inspection procedure
+Identify the order, style, lot, quantity, and specification revision. Confirm sampling instructions and inspection tools; inspect the required sample; record each defect using the approved classification; and distinguish observed facts from conclusions. Segregate suspect goods and notify the responsible supervisor and QA decision-maker.
+
+For nonconforming output, open a traceable report, record containment, investigate root cause with process owners, document corrective action, and re-inspect under the approved plan. Release, rework, or rejection requires authorized disposition. Retain samples, test results, calibration records, and lot records as required.
+
+References: https://en.wikipedia.org/wiki/Quality_control ; https://en.wikipedia.org/wiki/Textile_manufacturing

@@ -1,0 +1,3 @@
+defect_code,description,severity
+BS-01,Broken stitch,critical
+SK-02,Skipped stitch,major

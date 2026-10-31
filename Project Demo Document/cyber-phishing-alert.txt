@@ -1,0 +1,14 @@
+TEXO FACTORY PHISHING EMAIL REPORTING GUIDE
+
+Purpose
+This guide describes a safe first response to a suspicious email. Phishing messages may imitate a buyer, supplier, bank, or coworker and may ask for credentials, payment changes, confidential files, or urgent action.
+
+What employees should do
+Do not click links, open attachments, reply, or enter credentials from the message. Report it promptly using the factory's approved security-reporting channel. For this demonstration, forward the suspicious message to IT Security at itsecurity@factory.com. Preserve the original message and do not delete it unless IT Security instructs you to do so.
+
+What to include
+If forwarding is the approved method, include the original message so the security team can inspect its sender and routing details. Do not forward confidential material to personal accounts or share the message in public chat. If a link or attachment was already opened, report that fact immediately and follow the incident responder's instructions; do not attempt to investigate or clean the device yourself.
+
+IT Security records the report, assesses the message, and communicates containment steps through approved channels. Good-faith reporting should be encouraged; employees should not be discouraged from raising a concern.
+
+Reference: https://en.wikipedia.org/wiki/Phishing

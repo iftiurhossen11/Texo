@@ -1,0 +1,14 @@
+TEXO FACTORY DYEING AND FINISHING - OPERATING GUIDE
+
+Purpose
+The department converts approved greige fabric or yarn into colored and finished material that meets the buyer's shade, appearance, handle, dimensional, and performance requirements. Dyeing may occur at fiber, yarn, fabric, or garment stage. Finishing follows the approved route and must not be assumed identical for every substrate or order.
+
+Roles and coordination
+The Dyeing Manager controls the production route and escalation; laboratory staff prepare recipes and compare lab dips with the buyer-approved standard; machine operators record batch identity and process conditions; finishing operators control the specified treatment; and QA verifies samples and finished lots. The Chemical Store supplies only identified, approved materials.
+
+Controlled process
+Confirm the order, fabric construction, shade standard, recipe revision, batch weight, machine capacity, and chemical lots. Follow the approved preparation and dye sequence, recording time, temperature, dosing, and any order-specific parameters. After dyeing, evaluate shade and required fastness or wash tests against the documented specification; record the result and obtain QA disposition before release.
+
+Finishing should use the approved machine route and target dimensions or performance. Record inspection, rework, and nonconformance decisions. Segregate off-shade or otherwise nonconforming material, investigate the cause with authorized personnel, and retain recipe and test records for traceability.
+
+References: https://en.wikipedia.org/wiki/Dyeing ; https://en.wikipedia.org/wiki/Textile_finishing ; https://www.epa.gov/eg/textile-mills-effluent-guidelines

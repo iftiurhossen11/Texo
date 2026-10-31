@@ -1,0 +1,14 @@
+TEXO FACTORY ACCOUNTS AND FINANCE - OPERATING GUIDE
+
+Purpose
+Accounts and Finance maintains reliable records of factory transactions and provides cost and cash information for operational decisions. Cost views may separate yarn or fabric, trims, conversion labor, utilities, overhead, and shipment-related expenses, using the factory's approved accounting policies rather than estimates presented as actuals.
+
+Core responsibilities and roles
+A Finance Manager oversees reporting, budgets, controls, and cash planning. Cost accountants analyze order and process costs; accounts-payable officers verify supplier documents; payroll staff reconcile authorized attendance and pay changes; and general-ledger accountants post and reconcile transactions. Duties should be separated according to the organization's approval matrix.
+
+Documented workflow
+For purchases, match the approved order, receipt record, and invoice; investigate quantity, price, tax, or currency discrepancies; secure authorized approval; post the transaction; schedule payment; and reconcile the supplier account. For production costs, reconcile material issues and returns with production records, investigate variances, and report approved explanations.
+
+Month-end controls include bank and supplier reconciliations, review of open advances and liabilities, supported journal entries, and a documented close checklist. Keep source records, approvals, and revisions traceable under the factory's retention policy.
+
+References: https://en.wikipedia.org/wiki/Accounting ; https://en.wikipedia.org/wiki/Financial_accounting

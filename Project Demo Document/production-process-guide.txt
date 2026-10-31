@@ -1,0 +1,14 @@
+TEXO FACTORY PRODUCTION - PROCESS AND CONTROL GUIDE
+
+Purpose and scope
+Production turns an approved customer order into textile goods through a sequence selected for the product. A common route is fiber preparation, spinning, yarn preparation, weaving or knitting, wet processing or finishing, inspection, and packing. Not every product uses every stage, and the controlled order route is the source of truth.
+
+Roles and handoffs
+The Production Manager allocates people and equipment; process supervisors brief each shift and verify the current work instruction; operators perform the approved operation; PPC maintains the schedule; Stores confirms material release; QA defines checks and disposition; Maintenance supports equipment readiness; and EHS supports safe work.
+
+Shift-start procedure
+Review the order and revision, planned quantity, approved materials and lots, machine readiness, staffing and training, safety controls, and required quality checkpoints. Record the start condition and communicate risks before loading. Use only controlled instructions and authorized settings.
+
+During production, record good output, downtime, defects, rework, material use, and handover at defined intervals. Stop and escalate when safety, specification, traceability, or process conditions are outside approved limits. Segregate affected product, document the time and quantity, and resume only after the authorized owner releases the hold.
+
+References: https://en.wikipedia.org/wiki/Textile_manufacturing ; https://en.wikipedia.org/wiki/Production_planning

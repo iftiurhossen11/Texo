@@ -1,0 +1,12 @@
+TEXO FACTORY INDUSTRIAL ENGINEERING - DEPARTMENT GUIDE
+
+Purpose
+Industrial Engineering (IE) studies how people, materials, information, equipment, and energy work together, then recommends measurable process improvements. In apparel production, common analyses include operation breakdowns, method study, time study, line balancing, layout, bottleneck identification, and work-in-process flow.
+
+Typical roles
+The IE Manager prioritizes improvement work and validates assumptions; IE Engineers and Work Study Officers observe operations, maintain operation bulletins and standard-minute data, and support line planning; supervisors and operators validate that proposed methods are safe and practical.
+
+Improvement cycle
+Define the product and process scope; observe the current method; document steps and constraints; establish a measured baseline; identify waiting, excess movement, rework, or uneven loading; test an approved change; and compare results using the same measurement basis. Update standard work and train affected staff only after management approval.
+
+References: https://en.wikipedia.org/wiki/Industrial_engineering ; https://en.wikipedia.org/wiki/Production_planning

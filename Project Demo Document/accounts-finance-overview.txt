@@ -1,0 +1,13 @@
+TEXO FACTORY ACCOUNTS AND FINANCE - DEPARTMENT GUIDE
+
+Purpose and responsibilities
+Accounts and Finance records the factory's economic activity and turns verified transactions into useful information for managers and other authorized stakeholders. Factory work commonly includes cost accounting for materials, labor, utilities, and production orders; budget monitoring; cash planning; supplier-payment control; and period-end financial reporting.
+
+Typical roles
+The department may include a Finance Manager, cost accountant, general ledger accountant, accounts-payable officer, payroll accountant, and internal-control reviewer. Role separation helps ensure that the person who requests a payment is not the only person who approves, records, and reconciles it.
+
+Illustrative process
+Receive a purchase order, approved receipt, and supplier invoice; match quantities and prices; route exceptions to the responsible buyer; obtain approval under the delegated-authority matrix; record the liability; schedule payment; and reconcile the supplier statement. For payroll, reconcile approved attendance and authorized adjustments before payroll review and release.
+
+Reference: https://en.wikipedia.org/wiki/Accounting
+Reference: https://en.wikipedia.org/wiki/Financial_accounting

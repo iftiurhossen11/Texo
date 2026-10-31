@@ -1,0 +1,14 @@
+TEXO FACTORY COMMERCIAL AND SALES - OPERATING GUIDE
+
+Purpose
+Commercial and Sales links customer requirements to factory planning, purchasing, production, quality, and delivery. A complete order record should state the buyer, style or product reference, approved specification, quantity, price and currency, delivery terms, required date, and the authority for any later amendment.
+
+Roles and responsibilities
+Sales staff qualify inquiries and maintain customer communication. Merchandisers coordinate specifications, samples, approvals, and milestone updates. Costing staff prepare estimates with Finance and relevant production teams. Commercial and export-documentation officers verify order terms and coordinate shipping records with logistics and compliance.
+
+Order-control workflow
+Log the inquiry and clarify missing requirements; prepare a costed offer with assumptions visible; obtain internal capacity, material, and credit approvals; issue the controlled order confirmation; and record buyer approvals for samples, labels, packing, and shipment instructions. Do not treat a verbal or unapproved change as the current specification.
+
+During execution, update a shared order tracker at agreed milestones, escalate schedule or quality risks promptly, and reconcile final quantity and packing data before preparing shipment documents. Retain the approved version history and correspondence under the factory's record-retention rules.
+
+References: https://en.wikipedia.org/wiki/Supply_chain_management ; https://en.wikipedia.org/wiki/Procurement

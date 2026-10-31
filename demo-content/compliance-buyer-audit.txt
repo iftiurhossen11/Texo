@@ -1,0 +1,53 @@
+BUYER COMPLIANCE REQUIREMENTS AND AUDIT PREPARATION
+====================================================
+
+Department: Compliance and Sustainability
+Document type: Buyer Requirement
+Factory context: Bangladesh ready-made garment manufacturing
+Review date: 28 October 2026
+
+1. PURPOSE
+---------
+
+This operational brief helps factory managers prepare evidence for buyer social-compliance, health-and-safety, and responsible-sourcing reviews. It should be read with the current buyer manual, Bangladesh law, and the factory's approved policies.
+
+2. H&M-ALIGNED RESPONSIBLE SOURCING EXPECTATIONS
+------------------------------------------------
+
+The factory shall demonstrate a fair, safe, and respectful workplace consistent with H&M sustainability expectations:
+
+- Fair wages: pay regular wages and approved overtime accurately and on time; maintain payroll, attendance, leave, deduction, and benefit records.
+- Safe working environment: maintain clear emergency exits, fire systems, machine guards, first aid, drinking water, sanitation, lighting, ventilation, and safe chemical storage.
+- No child labor: verify age and identity documents during recruitment, protect personnel records, and prevent employment below the legal minimum age.
+- Respectful treatment: prohibit forced labor, harassment, discrimination, violence, intimidation, and retaliation.
+- Environmental responsibility: control wastewater, waste segregation, chemical handling, energy use, and environmental permits according to the site plan.
+
+3. ZARA-ALIGNED SUPPLIER CODE REQUIREMENTS
+--------------------------------------------
+
+Suppliers supporting Zara must protect worker rights and maintain a lawful workplace:
+
+- Respect freedom of association, lawful worker representation, and access to a grievance mechanism.
+- Provide written contracts, legal wages, lawful working hours, statutory leave, and accurate overtime payment.
+- Complete documented risk assessments for production floors, boiler rooms, chemical stores, warehouses, and dormitories where applicable.
+- Keep fire exits, alarms, evacuation routes, drills, emergency teams, and first-aid resources ready.
+- Provide suitable PPE, safety training, accident reporting, medical response, and corrective action.
+- Apply equivalent standards to approved subcontractors and homeworking arrangements.
+
+4. AUDIT PREPARATION CHECKLIST FOR MANAGERS
+--------------------------------------------
+
+[ ] Confirm the current H&M, Zara, and factory policy versions are available.
+[ ] Reconcile the worker list, age documents, contracts, attendance, payroll, overtime, leave, and benefits.
+[ ] Verify that wage calculations and deductions can be traced to payroll or bank records.
+[ ] Review fire, electrical, building, chemical, boiler, machine-safety, and first-aid inspection records.
+[ ] Walk every production area: exits clear, extinguishers accessible, guards installed, aisles unobstructed.
+[ ] Confirm PPE issue records and safety-training attendance for new and existing workers.
+[ ] Review incident, near-miss, grievance, corrective-action, and non-retaliation records.
+[ ] Verify approved subcontractors, purchase orders, production records, and authorization documents.
+[ ] Prepare translated notices and ensure workers can participate in private interviews.
+[ ] Close overdue corrective actions and keep objective evidence such as photos, invoices, and training logs.
+[ ] Brief supervisors not to coach, threaten, or retaliate against workers during interviews.
+[ ] Assign an evidence coordinator and an auditor escort; keep original records available.
+
+This document is a demonstration aid and does not replace a buyer's latest code of conduct, legal advice, or an independent audit.

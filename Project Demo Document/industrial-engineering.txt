@@ -1,0 +1,14 @@
+TEXO FACTORY INDUSTRIAL ENGINEERING - OPERATING GUIDE
+
+Purpose
+Industrial Engineering supports predictable production by measuring work and designing better methods and resource flows. Its analysis should balance output, quality, worker safety, and sustainable workload; a higher target is not an improvement if it produces unsafe work or hidden defects.
+
+Roles and responsibilities
+The IE Manager agrees the scope and measurement rules with Production. Engineers and Work Study Officers document operation sequences, verified time observations, machine and skill requirements, and line layouts. Line supervisors and operators review proposed changes because actual constraints and safe work practices must be represented.
+
+Standard work and line balancing
+Break a style into operations; confirm the approved method and machine; collect representative observations; calculate a documented standard using the factory's defined allowances; and identify capacity constraints. Balance the line against available capacity and skill mix, then pilot changes under controlled conditions. Record the date, product version, assumptions, and approvals.
+
+Review output, quality, downtime, work-in-process, and safety indicators together. When method or product changes, reassess the analysis and update controlled operation documents and training materials.
+
+Reference: https://en.wikipedia.org/wiki/Industrial_engineering

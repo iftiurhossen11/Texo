@@ -1,0 +1,14 @@
+TEXO FACTORY EFFLUENT TREATMENT PLANT - OPERATING GUIDE
+
+Purpose
+The Effluent Treatment Plant (ETP) receives wastewater from defined factory processes and treats it under the facility's approved design, permits, and operating procedures. Textile wet processing can generate wastewater from activities such as scouring, bleaching, dyeing, printing, rinsing, and finishing; the applicable discharge requirements depend on the site and jurisdiction.
+
+Roles and monitoring
+The ETP Manager oversees operating limits, maintenance, sampling plans, and escalation. Operators inspect equipment and record flows, process conditions, chemical use, alarms, and corrective actions. Environmental officers coordinate laboratory testing, permit records, and regulator or customer reporting.
+
+Illustrative control routine
+Check the inlet and treatment stages against the approved operating checklist; monitor the parameters required by the site permit and laboratory plan; label and preserve samples using the approved method; and record results with date, location, and responsible person. Investigate out-of-range results, equipment failure, or abnormal discharge immediately and follow the site containment and notification procedure.
+
+Do not bypass treatment or infer compliance from appearance alone. Keep calibration, sampling, maintenance, waste-transfer, and discharge records available for review. This guide is educational and does not replace the facility's permit or engineer-approved instructions.
+
+References: https://www.epa.gov/eg/textile-mills-effluent-guidelines ; https://en.wikipedia.org/wiki/Environmental_engineering

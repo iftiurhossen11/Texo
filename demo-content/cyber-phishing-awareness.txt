@@ -1,0 +1,34 @@
+CYBER PHISHING AWARENESS GUIDE
+==============================
+
+Audience: All factory employees, supervisors, office staff, and contractors
+Owner: IT and Information Security
+Review date: 28 October 2026
+
+What is phishing?
+-----------------
+
+Phishing is a deceptive email or message designed to steal passwords, payment information, factory data, or access to company systems. Attackers may pretend to be a buyer, bank, HR, courier, manager, or IT support.
+
+Warning signs
+-------------
+
+- "Urgent action required" or a threat that your account will be closed immediately.
+- Spelling mistakes, unusual grammar, poor formatting, or a greeting that does not match the sender.
+- A suspicious sender address, look-alike domain, or a reply-to address different from the visible sender.
+- Unexpected attachments, especially ZIP files, executable files, macro-enabled documents, or password-protected archives.
+- Links that do not match the displayed text, shortened URLs, or requests to enter a password after clicking.
+- Requests for confidential buyer information, payroll data, gift cards, bank changes, or an unusual payment.
+- A message that asks you to bypass normal approval or keep the request secret.
+
+What to do
+----------
+
+1. Stop and verify the request using a known phone number or a separate trusted channel.
+2. Do not open unexpected attachments or enable macros.
+3. Do not enter your password, OTP, or payment details into a link from an unexpected email.
+4. If you receive a suspicious email, do not click any links. Forward it to IT-Security@factory.com immediately.
+5. If you clicked a link or entered information, disconnect from the network if instructed, do not delete the message, and contact IT-Security immediately.
+6. Report even a suspected mistake quickly. Early reporting helps protect co-workers and production systems.
+
+IT Security will never punish a worker for reporting a suspicious message in good faith. Preserve the original email so the security team can investigate the sender, links, and attachment safely.

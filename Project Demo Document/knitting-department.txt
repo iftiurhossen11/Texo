@@ -1,0 +1,14 @@
+TEXO FACTORY KNITTING - OPERATING GUIDE
+
+Purpose
+Knitting forms fabric by intermeshing yarn loops. Weft knitting forms connected courses across the fabric; warp knitting forms columns of loops using yarns supplied along the fabric length. The resulting construction and yarn determine stretch, appearance, weight, and end use, so a machine setting suitable for one style must not be assumed suitable for another.
+
+Roles
+The Knitting Manager schedules machines and verifies approved specifications; technicians set up and maintain feeders, needles, and machine parameters; operators monitor yarn supply, fabric formation, faults, and roll identity; and QA checks construction and defects.
+
+Controlled production
+Confirm the order, yarn lot, machine, gauge, construction, target width or weight, and approved sample. Set and record the parameters from the authorized machine card, run a first-off sample, and obtain required approval before bulk production. Monitor yarn breaks, holes, dropped stitches, contamination, and roll-to-roll variation; isolate suspect fabric and record the affected roll and time range.
+
+At roll completion, label and reconcile quantity, machine, operator, yarn lot, and inspection status. Clean and change over equipment using approved safety and maintenance procedures.
+
+References: https://en.wikipedia.org/wiki/Knitting ; https://en.wikipedia.org/wiki/Knitted_fabric

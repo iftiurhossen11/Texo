@@ -1,0 +1,52 @@
+%PDF-1.4
+% Texo searchable demo document
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 1112 >>
+stream
+BT /F2 16 Tf 54 748 Td (Supplier Evaluation & Procurement Policy) Tj ET
+BT /F1 10 Tf 54 729 Td (Department: Supply Chain & Merchandising) Tj ET
+BT /F1 10 Tf 54 706 Td (Supplier Evaluation Criteria:) Tj ET
+BT /F1 10 Tf 54 683 Td (1. Quality: Certification \(ISO 9001, GOTS, OEKO-TEX\).) Tj ET
+BT /F1 10 Tf 54 669 Td (2. Cost: Competitive pricing, payment terms.) Tj ET
+BT /F1 10 Tf 54 655 Td (3. Delivery: On-time delivery performance.) Tj ET
+BT /F1 10 Tf 54 641 Td (4. Compliance: Social and environmental compliance.) Tj ET
+BT /F1 10 Tf 54 627 Td (5. Capacity: Production capacity and lead time.) Tj ET
+BT /F1 10 Tf 54 613 Td (Procurement Process:) Tj ET
+BT /F1 10 Tf 54 590 Td (1. Identify need.) Tj ET
+BT /F1 10 Tf 54 576 Td (2. Evaluate suppliers \(min 3 quotes\).) Tj ET
+BT /F1 10 Tf 54 562 Td (3. Negotiate terms.) Tj ET
+BT /F1 10 Tf 54 548 Td (4. Issue Purchase Order \(PO\).) Tj ET
+BT /F1 10 Tf 54 534 Td (5. Inspect goods on arrival.) Tj ET
+BT /F1 10 Tf 54 520 Td (6. Approve payment after quality check.) Tj ET
+BT /F1 10 Tf 54 506 Td (Supplier Audit Frequency: Annual audit for active suppliers.) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000041 00000 n 
+0000000090 00000 n 
+0000000147 00000 n 
+0000000283 00000 n 
+0000001447 00000 n 
+0000001517 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+1592
+%%EOF

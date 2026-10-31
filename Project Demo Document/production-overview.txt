@@ -1,0 +1,13 @@
+TEXO FACTORY PRODUCTION - DEPARTMENT GUIDE
+
+Purpose and process
+Production converts the approved order and material into the specified yarn, fabric, or garment using controlled work methods. A typical textile route may include fiber preparation, spinning, yarn or fabric formation by weaving or knitting, wet processing or finishing, inspection, and packing; the route varies by product and must follow the order specification.
+
+Typical roles
+Production Managers allocate capacity and remove constraints; line or process supervisors brief teams and verify the current work order; operators perform assigned operations; and quality, maintenance, PPC, stores, and safety staff support the line.
+
+Daily control
+At shift start, confirm the approved style or batch, quantity, materials, machine readiness, trained staffing, safety controls, and quality checkpoints. Record output, downtime, defects, rework, material use, and handover status at defined intervals. Escalate deviations promptly and use approved instructions rather than informal changes.
+
+Reference: https://en.wikipedia.org/wiki/Textile_manufacturing
+Reference: https://en.wikipedia.org/wiki/Production_planning

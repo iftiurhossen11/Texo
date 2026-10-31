@@ -1,0 +1,14 @@
+TEXO FACTORY PRODUCTION PLANNING AND CONTROL - OPERATING GUIDE
+
+Purpose
+PPC translates confirmed customer demand into a feasible plan for people, materials, machines, and production time. Plans should account for order priority, approved lead times, available capacity, material readiness, process route, changeovers, and required delivery dates.
+
+Typical roles
+The PPC Manager owns the planning horizon and escalation; planners prepare line or process schedules; material coordinators check purchasing and store readiness; and production coordinators compare actual progress with the plan. Sales, merchandising, purchasing, maintenance, and QA supply current constraints and approvals.
+
+Planning cycle
+Validate the order and product version; calculate required quantity and process sequence; check capacity and material availability; allocate work to suitable lines or machines; publish a controlled schedule; and review progress at agreed intervals. Record plan revisions and communicate the reason and impact to affected teams.
+
+When output falls behind, verify actual status, identify the constraint, and evaluate authorized recovery options. Do not hide a capacity or quality problem by changing dates without approval. Use completion, backlog, downtime, and material-readiness data to improve the next plan.
+
+References: https://en.wikipedia.org/wiki/Production_planning ; https://en.wikipedia.org/wiki/Supply_chain_management

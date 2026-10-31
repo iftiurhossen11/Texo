@@ -1,0 +1,12 @@
+TEXO FACTORY CHEMICAL STORE - DEPARTMENT GUIDE
+
+Purpose and responsibilities
+The Chemical Store controls receipt, identification, segregation, storage, and issue of dyes, auxiliaries, cleaning products, and maintenance chemicals. Accurate inventory and traceable issue records help production teams use the approved material and lot for each batch.
+
+Typical roles
+A Chemical Store Manager coordinates purchasing and stock controls; store officers check deliveries, labels, batch and expiry information, and issue quantities; and EHS or laboratory staff provide chemical compatibility and handling requirements. Only trained, authorized staff should handle materials under the site's procedures.
+
+Illustrative process
+Check a delivery against the purchase order and safety documentation; inspect the container and label; record supplier, batch, quantity, and location; store only in designated compatible areas; issue against an approved requisition; and update the balance. Quarantine damaged, unidentified, expired, or discrepant stock and report it rather than returning it to usable inventory.
+
+References: https://www.epa.gov/eg/textile-mills-effluent-guidelines ; https://en.wikipedia.org/wiki/Dyeing

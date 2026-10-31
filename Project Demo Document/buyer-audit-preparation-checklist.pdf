@@ -1,0 +1,48 @@
+%PDF-1.4
+% Texo searchable demo document
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 1113 >>
+stream
+BT /F2 16 Tf 54 748 Td (Buyer Audit Preparation Checklist) Tj ET
+BT /F1 10 Tf 54 729 Td (Department: Compliance & Sustainability) Tj ET
+BT /F1 10 Tf 54 706 Td (Pre-Audit Documents to Prepare:) Tj ET
+BT /F1 10 Tf 54 683 Td (- Valid factory license and trade license.) Tj ET
+BT /F1 10 Tf 54 669 Td (- Fire safety certificate and drill records \(last 6 months\).) Tj ET
+BT /F1 10 Tf 54 655 Td (- Building safety certificate.) Tj ET
+BT /F1 10 Tf 54 641 Td (- Wage records and payroll sheets \(last 3 months\).) Tj ET
+BT /F1 10 Tf 54 627 Td (- Attendance records.) Tj ET
+BT /F1 10 Tf 54 613 Td (- Child labor prevention policy and age verification records.) Tj ET
+BT /F1 10 Tf 54 599 Td (- Grievance mechanism records.) Tj ET
+BT /F1 10 Tf 54 585 Td (- Chemical storage and MSDS sheets.) Tj ET
+BT /F1 10 Tf 54 571 Td (Common Audit Findings to Avoid:) Tj ET
+BT /F1 10 Tf 54 548 Td (- Missing fire extinguisher inspection tags.) Tj ET
+BT /F1 10 Tf 54 534 Td (- Blocked emergency exits.) Tj ET
+BT /F1 10 Tf 54 520 Td (- Incomplete wage payment records.) Tj ET
+BT /F1 10 Tf 54 506 Td (- No grievance box for workers.) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000041 00000 n 
+0000000090 00000 n 
+0000000147 00000 n 
+0000000283 00000 n 
+0000001448 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1523
+%%EOF

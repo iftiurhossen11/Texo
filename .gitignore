@@ -1,0 +1,54 @@
+# Texo — monorepo gitignore
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+vendor/
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Build outputs
+dist/
+build/
+*.log
+
+# Laravel
+backend-laravel/storage/app/documents/
+backend-laravel/storage/logs/
+backend-laravel/storage/framework/cache/
+backend-laravel/storage/framework/sessions/
+backend-laravel/storage/framework/views/
+backend-laravel/bootstrap/cache/*.php
+!backend-laravel/bootstrap/cache/.gitignore
+
+# Python RAG
+rag-service/chroma_data/
+rag-service/chroma_data_backup/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# SQLite (dev fallback only)
+*.sqlite
+*.sqlite-journal
+
+# Explicit deployment and local-state exclusions
+node_modules/
+vendor/
+venv/
+.env
+database/database.sqlite
+dist/
+**pycache**/
+*.log
+backend-laravel/storage/logs/
+_restore_from_transcripts/

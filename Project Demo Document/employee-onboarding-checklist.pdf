@@ -1,0 +1,43 @@
+%PDF-1.4
+% Texo searchable demo document
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 904 >>
+stream
+BT /F2 16 Tf 54 748 Td (Employee Onboarding Checklist - Day 1) Tj ET
+BT /F1 10 Tf 54 729 Td (Department: HR & Training) Tj ET
+BT /F1 10 Tf 54 706 Td (Day 1 Tasks:) Tj ET
+BT /F1 10 Tf 54 683 Td (1. Safety Orientation: Attend mandatory safety briefing \(fire exits, PPE use\).) Tj ET
+BT /F1 10 Tf 54 669 Td (2. PPE Issuance: Receive safety shoes, hairnet, mask, gloves \(as per workstation\).) Tj ET
+BT /F1 10 Tf 54 655 Td (3. Attendance Setup: Register biometric attendance and shift schedule.) Tj ET
+BT /F1 10 Tf 54 641 Td (4. HR Policy Briefing: Read and sign Code of Conduct, Anti-Harassment Policy.) Tj ET
+BT /F1 10 Tf 54 627 Td (5. Supervisor Introduction: Meet line supervisor and receive workstation) Tj ET
+BT /F1 10 Tf 54 613 Td (assignment.) Tj ET
+BT /F1 10 Tf 54 599 Td (Documents Required: NID copy, 2 photos, educational certificate, bank account) Tj ET
+BT /F1 10 Tf 54 585 Td (details.) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000041 00000 n 
+0000000090 00000 n 
+0000000147 00000 n 
+0000000283 00000 n 
+0000001238 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1313
+%%EOF

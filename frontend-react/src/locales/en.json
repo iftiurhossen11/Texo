@@ -1,0 +1,48 @@
+{
+  "app": {
+    "title": "TEXO",
+    "subtitle": "AI Knowledge Assistant for Bangladesh's Textile & Apparel Industry"
+  },
+  "upload": {
+    "title": "Upload Document",
+    "dropHint": "Drag & drop or click to select (PDF, DOCX, TXT, CSV — max 20MB)",
+    "docType": "Document Type",
+    "department": "Department",
+    "uploading": "Uploading…",
+    "success": "Upload queued",
+    "indexed": "Document indexed — ready for questions."
+  },
+  "documents": {
+    "title": "Indexed Documents",
+    "empty": "No documents assigned to your department yet.",
+    "status": {
+      "uploaded": "Queued",
+      "processing": "Processing",
+      "indexed": "Indexed",
+      "failed": "Failed"
+    }
+  },
+  "chat": {
+    "title": "Ask a Question",
+    "placeholder": "Ask a question about your factory SOPs, compliance docs, or quality manuals.",
+    "send": "Ask",
+    "empty": "Ask a question about your uploaded documents.",
+    "emptyInput": "Please enter a question first.",
+    "thinking": "Searching documents..."
+  },
+  "context": {
+    "title": "Retrieved Source Passages",
+    "empty": "No matching passages found in indexed documents.",
+    "trustNote": "Answer generated only from retrieved document content."
+  },
+  "citation": {
+    "source": "Source"
+  },
+  "newVisitor": "New Visitor",
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "unavailable": "Assistant temporarily unavailable. Check network and try again.",
+    "uploadFailed": "Upload failed. Check file type and size."
+  },
+  "noAnswer": "This question's answer was not found in the uploaded documents."
+}

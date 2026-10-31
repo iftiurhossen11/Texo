@@ -1,0 +1,12 @@
+TEXO FACTORY SUPPLY CHAIN AND MERCHANDISING - DEPARTMENT GUIDE
+
+Purpose
+Supply Chain coordinates the movement of materials and information from supplier commitments through production and delivery. Merchandising connects customer specifications and approvals to sourcing, costing, sampling, planning, and order milestones.
+
+Typical roles
+Supply Chain Managers coordinate sourcing and logistics; purchasing officers obtain and compare supplier offers; material planners monitor demand and lead times; merchandisers own buyer requirements and approvals; and warehouse teams confirm receipt and stock status.
+
+Order control
+Translate approved demand into a bill of materials and required dates; confirm supplier, specification, quantity, price, and delivery terms; track purchase orders and inbound shipments; receive and inspect material; and reconcile shortages or quality holds before production release. Track changes and communicate schedule risks early.
+
+References: https://en.wikipedia.org/wiki/Supply_chain_management ; https://en.wikipedia.org/wiki/Procurement

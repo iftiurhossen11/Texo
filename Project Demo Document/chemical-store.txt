@@ -1,0 +1,14 @@
+TEXO FACTORY CHEMICAL STORE - OPERATING GUIDE
+
+Purpose
+The Chemical Store supplies identified dyes and process auxiliaries to dyeing, finishing, laboratory, cleaning, and maintenance operations. Its records connect each received supplier lot to its approved storage location and each authorized issue to a production batch or work order.
+
+Roles and controls
+The Chemical Store Manager maintains approved-material lists, stock accuracy, access controls, and reconciliation. Store Officers inspect deliveries and labels, maintain lot-level records, and issue material only against an approved requisition. EHS and laboratory personnel define site-specific compatibility, protective equipment, spill response, and handling requirements; this guide does not replace a chemical label, safety data sheet, or local law.
+
+Receipt-to-issue procedure
+Compare delivery documents with the purchase order; check package condition, product identity, lot, quantity, and shelf-life information; record any discrepancy and place suspect material on hold. Store containers in designated, labeled locations according to the supplier's safety documentation and the factory's compatibility plan. Use the approved stock-rotation method and keep aisles and emergency equipment accessible.
+
+For issue, verify the requisition, material code, lot, and quantity; record the receiver, date, and intended batch; and update the stock ledger. Reconcile physical counts with system balances, investigate variances, and report leaks or damaged containers immediately through the site emergency procedure.
+
+Reference: https://www.epa.gov/eg/textile-mills-effluent-guidelines

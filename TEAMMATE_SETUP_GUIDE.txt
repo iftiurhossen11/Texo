@@ -1,0 +1,140 @@
+TEXO EXHIBITION PROJECT - TEAMMATE SETUP GUIDE
+================================================
+
+This guide prepares the Texo demo on a fresh Windows laptop.
+
+1. PREREQUISITES
+----------------
+- Windows 10 or Windows 11
+- Node.js 20 LTS or newer, with npm
+- PHP 8.2 or newer
+- Composer
+- Python 3.12
+- Git is optional; it is not required to run the ZIP archive
+- Internet access for package installation and the first embedding-model download
+- A valid Groq API key for AI-generated chat answers
+
+Verify the tools in PowerShell:
+
+    node --version
+    npm --version
+    php --version
+    composer --version
+    python --version
+
+2. EXTRACT THE PROJECT
+----------------------
+Extract Texo_Exhibition_Backup.zip to a path without permission restrictions,
+for example:
+
+    E:\Project Texo\Texo
+
+Do not extract it inside OneDrive or a protected Windows system directory.
+Open PowerShell and change to the extracted project directory:
+
+    cd "E:\Project Texo\Texo"
+
+3. INSTALL FRONTEND DEPENDENCIES
+--------------------------------
+
+    cd frontend-react
+    npm install
+    cd ..
+
+4. INSTALL LARAVEL DEPENDENCIES
+-------------------------------
+
+    cd backend-laravel
+    composer install
+
+Create the Laravel environment file:
+
+    Copy-Item .env.example .env
+
+For the exhibition demo, edit backend-laravel\.env and use SQLite:
+
+    DB_CONNECTION=sqlite
+    DB_DATABASE="E:/Project Texo/Texo/backend-laravel/database/database.sqlite"
+
+The DB_DATABASE path must match the actual extraction path if the project was
+placed somewhere else. Create the empty SQLite file if it does not exist:
+
+    New-Item -ItemType File -Force database\database.sqlite
+
+Set the AI provider and API key:
+
+    LLM_PROVIDER=groq
+    GROQ_API_KEY=PASTE_A_VALID_GROQ_KEY_HERE
+
+Generate the Laravel application key:
+
+    php artisan key:generate
+
+5. INSTALL RAG DEPENDENCIES
+---------------------------
+
+    cd ..\rag-service
+    python -m venv venv
+    .\venv\Scripts\python.exe -m pip install --upgrade pip
+    .\venv\Scripts\python.exe -m pip install -r requirements.txt
+    Copy-Item .env.example .env
+    cd ..
+
+The first RAG request may download the embedding model and can take several
+minutes depending on the network connection.
+
+6. PREPARE THE DATABASE AND STORAGE
+------------------------------------
+
+    cd backend-laravel
+    New-Item -ItemType Directory -Force storage\framework\views
+    New-Item -ItemType Directory -Force storage\framework\cache
+    New-Item -ItemType Directory -Force storage\framework\sessions
+    New-Item -ItemType Directory -Force storage\logs
+    php artisan migrate:fresh --seed --force
+    cd ..
+
+7. START TEXO
+-------------
+From the project root:
+
+    .\start-demo.bat
+
+The launcher starts the frontend, Laravel API, RAG service, and Laravel queue
+worker in the background without opening a separate console for each service.
+Run the health check:
+
+    .\health-check.bat
+
+All four checks should report [OK].
+
+8. OPEN THE APPLICATION
+-----------------------
+Open this URL in a browser:
+
+    http://127.0.0.1:5173
+
+Upload files from the demo-content folder, select the matching document type
+and department, wait for the document status to become Indexed, and then ask a
+question about the uploaded document.
+
+Useful service URLs:
+
+    Frontend: http://127.0.0.1:5173
+    Laravel health: http://127.0.0.1:8000/api/health
+    RAG health: http://127.0.0.1:8001/health
+
+9. STOP TEXO
+------------
+When finished, run this from the project root:
+
+    .\stop-demo.bat
+
+TROUBLESHOOTING
+---------------
+- If a port is already in use, run .\stop-demo.bat and retry.
+- If Laravel reports a database error, verify DB_CONNECTION=sqlite, the
+  DB_DATABASE path, and that database\database.sqlite exists.
+- If AI answers fail, verify GROQ_API_KEY and LLM_PROVIDER=groq in
+  backend-laravel\.env, then run .\stop-demo.bat followed by .\start-demo.bat.
+- Review backend-laravel\storage\logs\laravel.log for Laravel errors.

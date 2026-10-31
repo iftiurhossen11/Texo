@@ -1,0 +1,12 @@
+TEXO FACTORY DYEING AND FINISHING - DEPARTMENT GUIDE
+
+Purpose and responsibilities
+Dyeing applies color to fiber, yarn, or fabric using a controlled recipe and process; finishing applies treatments that change appearance, handle, or performance. The department coordinates with the laboratory, chemical store, production planning, maintenance, and quality teams.
+
+Typical roles
+A Dyeing Manager plans batches and approves process control; laboratory technicians prepare and verify recipes and shade standards; operators run machines and record process conditions; and finishing supervisors coordinate drying, setting, inspection, and packing.
+
+Illustrative batch control
+Verify the approved material, shade standard, recipe revision, machine, and batch quantity before loading. Record the required sequence, temperature, time, pH or other specified parameters, chemical lot, and operator checks. Compare a sample with the approved standard at the planned control point; record any deviation and obtain authorized disposition before continuing.
+
+References: https://en.wikipedia.org/wiki/Dyeing ; https://en.wikipedia.org/wiki/Textile_finishing ; https://www.epa.gov/eg/textile-mills-effluent-guidelines

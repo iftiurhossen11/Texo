@@ -1,0 +1,15 @@
+TEXO FACTORY IT AND CYBERSECURITY - OPERATING GUIDE
+
+Purpose
+IT and Cybersecurity protects the availability and confidentiality of factory systems and business information while enabling authorized work. The department maintains managed accounts, endpoints, networks, applications, backups, access reviews, and incident-response coordination.
+
+Roles
+The IT Manager assigns service and risk ownership; system and network administrators maintain approved infrastructure; application support resolves business-system issues; and security responders assess suspicious messages or activity. Department managers approve access based on job need.
+
+Access and change procedure
+Create an individual account only after an authorized request identifies the user, system, role, and business purpose. Grant least privilege, record the approval, and review access after role changes or at the scheduled review. For system changes, document scope, risk, test evidence, approval, implementation window, and rollback plan.
+
+Incident response
+Report suspicious emails, unexpected login prompts, exposed credentials, malware alerts, or unusual system behavior through the approved IT channel immediately. Do not click suspicious links, forward confidential content to personal accounts, or investigate by changing system settings. Preserve the message or alert and follow the incident responder's instructions.
+
+References: https://en.wikipedia.org/wiki/Information_security ; https://en.wikipedia.org/wiki/Phishing

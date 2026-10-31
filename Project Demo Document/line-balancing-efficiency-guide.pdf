@@ -1,0 +1,45 @@
+%PDF-1.4
+% Texo searchable demo document
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 973 >>
+stream
+BT /F2 16 Tf 54 748 Td (Line Balancing & Efficiency Guide) Tj ET
+BT /F1 10 Tf 54 729 Td (Department: Production & Industrial Engineering) Tj ET
+BT /F1 10 Tf 54 706 Td (Key Concepts:) Tj ET
+BT /F1 10 Tf 54 683 Td (- Cycle Time: Time taken by one operator to complete one operation.) Tj ET
+BT /F1 10 Tf 54 669 Td (- Bottleneck: The slowest operation in the line.) Tj ET
+BT /F1 10 Tf 54 655 Td (- Efficiency Formula: \(Standard Minute Value \(SMV\) x Units Produced\) / \(Total) Tj ET
+BT /F1 10 Tf 54 641 Td (Minutes Worked\) x 100.) Tj ET
+BT /F1 10 Tf 54 627 Td (Line Balancing Steps:) Tj ET
+BT /F1 10 Tf 54 604 Td (1. Calculate total SMV for the style.) Tj ET
+BT /F1 10 Tf 54 590 Td (2. Identify bottleneck operations.) Tj ET
+BT /F1 10 Tf 54 576 Td (3. Redistribute work elements to balance the line.) Tj ET
+BT /F1 10 Tf 54 562 Td (4. Monitor hourly production and adjust.) Tj ET
+BT /F1 10 Tf 54 548 Td (Target Efficiency: 65-75% for woven tops, 55-65% for knit tops.) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000041 00000 n 
+0000000090 00000 n 
+0000000147 00000 n 
+0000000283 00000 n 
+0000001307 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1382
+%%EOF

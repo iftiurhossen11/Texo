@@ -1,0 +1,41 @@
+==================================================
+TEXO LIVE DEMO - QUESTIONS FOR JUDGES (FRIDAY)
+==================================================
+
+--- FILE 1: BKMEA Quality Control Standard (PDF) ---
+Document Type: quality_manual
+Department: qa
+
+Q1: What is the Acceptable Quality Level (AQL) for major and minor defects in RMG?
+Q2: How should an inspector classify a 'Broken Stitch' or 'Open Seam' defect?
+Q3: What are the steps for final inspection according to the BKMEA standard?
+Q4: What are the standard operating procedures for fabric inspection?
+
+
+--- FILE 2: H&M Annual & Sustainability Report (PDF) ---
+Document Type: buyer_requirement
+Department: compliance_sustainability
+
+Q1: What are H&M's requirements regarding Fair Wages and Safe Working Conditions for suppliers?
+Q2: What is H&M's policy on Child Labor in the supply chain?
+Q3: How does H&M expect factories to prepare for social compliance audits?
+Q4: What is H&M's commitment to reducing greenhouse gas emissions by 2030?
+
+
+--- FILE 3: ILO Bangladesh RMG Safety Report (PDF) ---
+Document Type: policy
+Department: hr_training (or it_cybersecurity)
+
+Q1: What are the Occupational Safety and Health (OSH) requirements for garment factory workers in Bangladesh?
+Q2: How many garment workers were trained on safety by the ILO program?
+Q3: What are the key steps for emergency response and fire safety in a factory?
+Q4: How does the ILO program support factory safety inspections and remediation?
+
+
+==================================================
+PRE-DEMO CHECKLIST (CRITICAL):
+==================================================
+1. Ensure all 3 PDF files are in the `demo-content` folder.
+2. Before asking questions, make sure the document status shows "Indexed" (not "Processing" or "Uploaded").
+3. Always ask full sentences, not just keywords.
+4. If an answer takes time, tell the judges: "Texo is retrieving the most relevant passages from the real 40-page document."

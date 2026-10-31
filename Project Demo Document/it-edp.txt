@@ -1,0 +1,14 @@
+TEXO FACTORY IT AND EDP - OPERATING GUIDE
+
+Purpose
+IT and EDP supports the factory's managed computers, network services, enterprise and production applications, authorized data exchange, and user support. The department works with business owners to keep systems available while protecting confidential employee, customer, supplier, and production information.
+
+Roles
+The IT Manager prioritizes service and security; system administrators maintain managed devices and accounts; network engineers support connectivity; application support staff troubleshoot approved software; and designated security responders coordinate incident handling.
+
+Service workflow
+Record each service request with the requester, affected system, business impact, and resolution. For access, require a manager-approved role-based request, create an individual account, grant only the needed permissions, and record approval and expiry where applicable. Review access after role changes and promptly disable accounts during approved offboarding.
+
+Apply approved patch, backup, restore-test, asset-inventory, and change-management schedules. Suspected malware, credential disclosure, or phishing should be reported immediately through the factory channel; preserve evidence and follow the incident lead's directions.
+
+References: https://en.wikipedia.org/wiki/Information_security ; https://en.wikipedia.org/wiki/Phishing

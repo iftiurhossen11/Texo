@@ -1,0 +1,14 @@
+TEXO FACTORY STORE AND WAREHOUSE - OPERATING GUIDE
+
+Purpose
+The Store and Warehouse function manages the receipt, identification, storage, preservation, issue, and dispatch of factory materials. Good inventory control keeps the physical stock, location record, item code, lot identity, and system balance aligned.
+
+Roles and responsibility
+The Warehouse Manager establishes location, access, safety, and count controls. Receiving officers verify the purchase order, delivery note, package condition, and quantity. Store Officers label and locate stock, process approved material requests, and record returns. Dispatch staff pick and reconcile goods against authorized packing and shipment documents.
+
+Receipt and issue procedure
+At receipt, count and inspect the delivery, record supplier and lot information, report discrepancies, and set the correct inspection or quarantine status. Store items in designated locations with suitable protection and clear identification. Rotate stock using the factory's approved rule and monitor shelf-life or storage constraints where applicable.
+
+Issue material only against an approved requisition; scan or record item, lot, quantity, recipient, date, and production order. Perform cycle counts, investigate variances before adjustment, and preserve an audit trail. Keep aisles, racks, exits, and handling equipment within site safety rules.
+
+References: https://en.wikipedia.org/wiki/Warehouse ; https://en.wikipedia.org/wiki/Supply_chain_management

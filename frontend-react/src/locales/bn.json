@@ -1,0 +1,48 @@
+{
+  "app": {
+    "title": "TEXO",
+    "subtitle": "AI Knowledge Assistant for Bangladesh's Textile & Apparel Industry"
+  },
+  "upload": {
+    "title": "ডকুমেন্ট আপলোড",
+    "dropHint": "Drag & drop or click to select (PDF, DOCX, TXT, CSV — max 20MB)",
+    "docType": "ডকুমেন্ট ধরন",
+    "department": "বিভাগ",
+    "uploading": "আপলোড হচ্ছে…",
+    "success": "আপলোড কিউতে যোগ হয়েছে",
+    "indexed": "ডকুমেন্ট indexed — প্রশ্ন করতে পারেন।"
+  },
+  "documents": {
+    "title": "Indexed Documents",
+    "empty": "আপনার বিভাগে এখনো কোনো ডকুমেন্ট বরাদ্দ করা হয়নি।",
+    "status": {
+      "uploaded": "Queued",
+      "processing": "Processing",
+      "indexed": "Indexed",
+      "failed": "Failed"
+    }
+  },
+  "chat": {
+    "title": "প্রশ্ন করুন",
+    "placeholder": "Ask a question about your factory SOPs, compliance docs, or quality manuals.",
+    "send": "জিজ্ঞাসা",
+    "empty": "আপলোড করা ডকুমেন্ট সম্পর্কে প্রশ্ন করুন।",
+    "emptyInput": "আগে একটি প্রশ্ন লিখুন।",
+    "thinking": "নথি খোঁজা হচ্ছে..."
+  },
+  "context": {
+    "title": "Retrieved Source Passages",
+    "empty": "Indexed documents-এ মিল পাওয়া যায়নি।",
+    "trustNote": "উত্তর শুধু retrieved document content থেকে তৈরি।"
+  },
+  "citation": {
+    "source": "উৎস"
+  },
+  "newVisitor": "New Visitor",
+  "errors": {
+    "generic": "কিছু একটা ভুল হয়েছে। আবার চেষ্টা করুন।",
+    "unavailable": "Assistant সাময়িকভাবে unavailable। Network চেক করে আবার চেষ্টা করুন।",
+    "uploadFailed": "Upload ব্যর্থ। File type ও size চেক করুন।"
+  },
+  "noAnswer": "আপলোড করা ডকুমেন্টে এই প্রশ্নের উত্তর পাওয়া যায়নি।"
+}

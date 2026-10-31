@@ -1,0 +1,9 @@
+Texo Quality Reference: Acceptable Quality Limits (AQL)
+Department: QA
+
+According to the BKMEA Quality Control Standard for RMG:
+- Major defects: The AQL for major defects is less than 2.5% of the inspected items.
+- Minor defects: The AQL for minor defects is less than 4.0% of the inspected items.
+- Critical defects: Zero tolerance. Stop the lot immediately and notify the QA Manager.
+
+If a lot exceeds these limits, place it on hold for root cause analysis and re-inspection.

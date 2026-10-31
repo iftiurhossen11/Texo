@@ -1,0 +1,54 @@
+%PDF-1.4
+% Texo searchable demo document
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 1114 >>
+stream
+BT /F2 16 Tf 54 748 Td (Garment Costing & Pricing Guide) Tj ET
+BT /F1 10 Tf 54 729 Td (Department: Accounts & Finance) Tj ET
+BT /F1 10 Tf 54 706 Td (Cost Components:) Tj ET
+BT /F1 10 Tf 54 683 Td (- Fabric Cost: \(Fabric Consumption x Fabric Price per unit\)) Tj ET
+BT /F1 10 Tf 54 669 Td (- Trims & Accessories: Buttons, zippers, labels, thread.) Tj ET
+BT /F1 10 Tf 54 655 Td (- CM \(Cut & Make\): Labor cost per garment.) Tj ET
+BT /F1 10 Tf 54 641 Td (- Overheads: Factory rent, utilities, admin.) Tj ET
+BT /F1 10 Tf 54 627 Td (- Profit Margin: Usually 10-15% for export orders.) Tj ET
+BT /F1 10 Tf 54 613 Td (Formula:) Tj ET
+BT /F1 10 Tf 54 599 Td (Total Cost = Fabric + Trims + CM + Overheads) Tj ET
+BT /F1 10 Tf 54 585 Td (FOB Price = Total Cost + Profit Margin) Tj ET
+BT /F1 10 Tf 54 562 Td (Example:) Tj ET
+BT /F1 10 Tf 54 539 Td (- Fabric: BDT 300) Tj ET
+BT /F1 10 Tf 54 525 Td (- Trims: BDT 50) Tj ET
+BT /F1 10 Tf 54 511 Td (- CM: BDT 100) Tj ET
+BT /F1 10 Tf 54 497 Td (- Overheads: BDT 30) Tj ET
+BT /F1 10 Tf 54 483 Td (- Total: BDT 480) Tj ET
+BT /F1 10 Tf 54 469 Td (- FOB \(10% margin\): BDT 528) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000041 00000 n 
+0000000090 00000 n 
+0000000147 00000 n 
+0000000283 00000 n 
+0000001449 00000 n 
+0000001519 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+1594
+%%EOF

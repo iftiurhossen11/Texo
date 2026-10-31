@@ -1,0 +1,12 @@
+TEXO FACTORY IT AND CYBERSECURITY - DEPARTMENT GUIDE
+
+Purpose and responsibilities
+IT supports the availability and integrity of factory systems, networks, devices, and business data. Cybersecurity work includes account lifecycle control, secure configuration, backup and recovery, patch coordination, incident reporting, awareness, and review of supplier or remote access.
+
+Typical roles
+The IT Manager approves service priorities and access ownership; system and network administrators maintain managed infrastructure; application support staff help users and business systems; and security responders triage suspicious activity and coordinate containment.
+
+Illustrative access and incident process
+Grant access only after a manager-approved request identifies the user's role and business need. Use individual accounts, least privilege, approved authentication, and periodic access review. On a suspected phishing message or account compromise, preserve relevant evidence, report through the approved IT channel promptly, and follow responder instructions rather than forwarding confidential material to personal accounts.
+
+References: https://en.wikipedia.org/wiki/Information_security ; https://en.wikipedia.org/wiki/Phishing

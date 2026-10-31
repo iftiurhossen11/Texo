@@ -1,0 +1,55 @@
+%PDF-1.4
+% Texo searchable demo document
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 1392 >>
+stream
+BT /F2 16 Tf 54 748 Td (Fire Safety & Emergency Evacuation SOP) Tj ET
+BT /F1 10 Tf 54 729 Td (Department: Compliance & Sustainability) Tj ET
+BT /F1 10 Tf 54 706 Td (Fire Safety Equipment:) Tj ET
+BT /F1 10 Tf 54 683 Td (- Fire extinguishers: Check pressure gauge monthly, refill annually.) Tj ET
+BT /F1 10 Tf 54 669 Td (- Smoke detectors: Test monthly, replace batteries yearly.) Tj ET
+BT /F1 10 Tf 54 655 Td (- Emergency lighting: Check monthly.) Tj ET
+BT /F1 10 Tf 54 641 Td (- Fire alarm system: Test weekly.) Tj ET
+BT /F1 10 Tf 54 627 Td (Evacuation Procedure:) Tj ET
+BT /F1 10 Tf 54 604 Td (1. On hearing the alarm, stop work immediately.) Tj ET
+BT /F1 10 Tf 54 590 Td (2. Walk \(do not run\) to the nearest emergency exit.) Tj ET
+BT /F1 10 Tf 54 576 Td (3. Assemble at the designated assembly point.) Tj ET
+BT /F1 10 Tf 54 562 Td (4. Supervisors take headcount and report to the Fire Safety Officer.) Tj ET
+BT /F1 10 Tf 54 548 Td (5. Do not re-enter the building until cleared.) Tj ET
+BT /F1 10 Tf 54 534 Td (Fire Drill Frequency: Mandatory drill every 6 months \(as per Bangladesh Fire) Tj ET
+BT /F1 10 Tf 54 520 Td (Service rules\).) Tj ET
+BT /F1 10 Tf 54 497 Td (Common Audit Findings to Avoid:) Tj ET
+BT /F1 10 Tf 54 474 Td (- Blocked emergency exits.) Tj ET
+BT /F1 10 Tf 54 460 Td (- Expired fire extinguishers.) Tj ET
+BT /F1 10 Tf 54 446 Td (- Missing evacuation route maps.) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000041 00000 n 
+0000000090 00000 n 
+0000000147 00000 n 
+0000000283 00000 n 
+0000001727 00000 n 
+0000001797 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+1872
+%%EOF

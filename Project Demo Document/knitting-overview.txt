@@ -1,0 +1,12 @@
+TEXO FACTORY KNITTING - DEPARTMENT GUIDE
+
+Purpose and process
+Knitting forms textile fabric by creating and intermeshing yarn loops. In weft knitting, yarn forms courses across the fabric; warp knitting uses yarns running along the fabric. The construction affects stretch, stability, appearance, and suitable end use, and specifications must be confirmed for each style.
+
+Typical roles
+The Knitting Manager plans machine loading; technicians set and maintain machines; operators monitor yarn supply and fabric formation; and inspectors verify construction and roll quality. Production, maintenance, and QA share machine and defect records.
+
+Process controls
+Verify yarn identity and lot, machine and gauge, construction, approved sample, and target dimensions before starting. Record authorized settings and first-off approval. Inspect at defined intervals for holes, dropped stitches, yarn contamination, and variation; identify and segregate affected rolls, document disposition, and reconcile completed quantity to the order.
+
+References: https://en.wikipedia.org/wiki/Knitting ; https://en.wikipedia.org/wiki/Knitted_fabric
