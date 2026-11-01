@@ -1,6 +1,6 @@
 # Texo
 
-AI Knowledge Assistant for Bangladesh's Textile & Apparel Industry — exhibition proof-of-concept for the Digital Transformation Zone (5 September 2026).
+Texo helps Bangladesh's textile and apparel teams organize department-specific documents, index them for search, and ask questions with AI-generated answers grounded in relevant source passages.
 
 **Live website:** [Open Texo](https://frontend-react-rho-two.vercel.app/)
 
