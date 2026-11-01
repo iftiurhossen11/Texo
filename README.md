@@ -2,6 +2,8 @@
 
 AI Knowledge Assistant for Bangladesh's Textile & Apparel Industry — exhibition proof-of-concept for the Digital Transformation Zone (5 September 2026).
 
+**Live website:** [Open Texo](https://frontend-react-rho-two.vercel.app/)
+
 ## Stack
 
 | Layer | Tech |
