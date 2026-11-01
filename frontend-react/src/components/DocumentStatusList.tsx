@@ -219,7 +219,7 @@ export function DocumentStatusList({ documents, loading, departmentFilter }: Pro
   }
 
   return (
-    <section className="flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-700 bg-slate-900/50 p-5">
+    <section className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-slate-700 bg-slate-900/50 p-5">
       <h2 className="mb-4 text-lg font-semibold text-white">{t('documents.title')}</h2>
       <label className="mb-4 block">
         <span className="sr-only">Search Indexed Documents</span>

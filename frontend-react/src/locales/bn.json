@@ -6,6 +6,7 @@
   "upload": {
     "title": "ডকুমেন্ট আপলোড",
     "dropHint": "Drag & drop or click to select (PDF, DOCX, TXT, CSV — max 20MB)",
+    "scopeNote": "আপলোড করা ডকুমেন্ট নির্বাচিত বিভাগে প্রবেশাধিকার থাকা ব্যবহারকারীরা দেখতে ও ব্যবহার করতে পারবেন।",
     "docType": "ডকুমেন্ট ধরন",
     "department": "বিভাগ",
     "uploading": "আপলোড হচ্ছে…",

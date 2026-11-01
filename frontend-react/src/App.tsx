@@ -6,6 +6,7 @@ import { AnalyticsDashboard } from './components/AnalyticsDashboard'
 import { DocumentStatusList } from './components/DocumentStatusList'
 import { RetrievedContextPanel } from './components/RetrievedContextPanel'
 import { LoginScreen } from './components/LoginScreen'
+import { UploadPanel } from './components/UploadPanel'
 import { useAuth } from './context/AuthContext'
 import { useChat } from './hooks/useChat'
 import { useDocuments } from './hooks/useDocuments'
@@ -20,7 +21,7 @@ function App() {
 
 function AuthenticatedApp() {
   const { t, i18n } = useTranslation()
-  const { documents, loading } = useDocuments()
+  const { documents, loading, refresh } = useDocuments()
   const chat = useChat()
   const { user, logout } = useAuth()
   const [lang, setLang] = useState<'en' | 'bn'>('en')
@@ -219,7 +220,8 @@ function AuthenticatedApp() {
 
         {activeTab !== 'dashboard' || !canViewManagementTabs ? (
           <div className="flex min-h-[600px] flex-col items-stretch gap-6 lg:h-[calc(100vh-250px)] lg:flex-row">
-            <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+            <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-4">
+              <UploadPanel onUploaded={() => void refresh()} />
               <DocumentStatusList
                 documents={documents}
                 loading={loading}

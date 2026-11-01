@@ -6,6 +6,7 @@
   "upload": {
     "title": "Upload Document",
     "dropHint": "Drag & drop or click to select (PDF, DOCX, TXT, CSV — max 20MB)",
+    "scopeNote": "Uploaded documents are shared with users who have access to the selected department.",
     "docType": "Document Type",
     "department": "Department",
     "uploading": "Uploading…",
