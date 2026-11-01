@@ -17,7 +17,13 @@ else
 fi
 
 if [ "${SEED_DEMO_DATA:-false}" = "true" ]; then
-    php artisan db:seed --class=ProductionDemoSeeder --force
+    demo_users_password="${DEMO_USERS_PASSWORD:-}"
+    if [ "${#demo_users_password}" -lt 16 ]; then
+        echo "Skipping production demo seeding: DEMO_USERS_PASSWORD must be at least 16 characters." >&2
+    else
+        php artisan db:seed --class=ProductionDemoSeeder --force
+    fi
+    unset demo_users_password
 fi
 
 php artisan queue:work --sleep=3 --tries=3 --timeout=120 --no-interaction &
