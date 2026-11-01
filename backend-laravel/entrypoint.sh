@@ -9,7 +9,12 @@ mkdir -p \
     storage/logs \
     storage/app/private
 
-php artisan migrate --force
+if [ "${DB_CONNECTION:-}" = "pgsql" ] && [ -n "${DB_URL:-}" ]; then
+    migration_db_url=$(printf '%s' "$DB_URL" | sed -E 's#^((postgres|postgresql)://[^@/]+@[^/?#:]+)-pooler\.#\1.#')
+    DB_URL="$migration_db_url" php artisan migrate --force
+else
+    php artisan migrate --force
+fi
 
 if [ "${SEED_DEMO_DATA:-false}" = "true" ]; then
     php artisan db:seed --class=ProductionDemoSeeder --force
