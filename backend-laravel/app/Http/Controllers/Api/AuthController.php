@@ -24,10 +24,20 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Password::min(12)->max(128)],
             'owner_setup_code' => ['nullable', 'string', 'max:255'],
+            'account_type' => ['nullable', 'in:employee,owner'],
         ]);
 
-        if ($this->isConfiguredOwnerEmail($validated['email'])
-            && ! $this->ownerSetupCodeMatches($validated['owner_setup_code'] ?? null)) {
+        $isConfiguredOwner = $this->isConfiguredOwnerEmail($validated['email']);
+        $hasValidOwnerSetupCode = $this->ownerSetupCodeMatches($validated['owner_setup_code'] ?? null);
+
+        if (($validated['account_type'] ?? 'employee') === 'owner'
+            && (! $isConfiguredOwner || ! $hasValidOwnerSetupCode)) {
+            throw ValidationException::withMessages([
+                'owner_setup_code' => ['Owner account creation requires the configured owner email and a valid setup code.'],
+            ]);
+        }
+
+        if ($isConfiguredOwner && ! $hasValidOwnerSetupCode) {
             throw ValidationException::withMessages([
                 'owner_setup_code' => ['A valid owner setup code is required for this email address.'],
             ]);

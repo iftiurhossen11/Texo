@@ -64,6 +64,7 @@ class PublicRegistrationTest extends TestCase
             'password' => 'a-unique-password-123',
             'password_confirmation' => 'a-unique-password-123',
             'role' => 'admin',
+            'account_type' => 'owner',
         ])->assertUnprocessable()
             ->assertJsonValidationErrors(['owner_setup_code']);
 
@@ -73,9 +74,30 @@ class PublicRegistrationTest extends TestCase
             'password' => 'a-unique-password-123',
             'password_confirmation' => 'a-unique-password-123',
             'role' => 'admin',
+            'account_type' => 'owner',
             'owner_setup_code' => 'a-strong-owner-setup-code',
         ])->assertCreated()
             ->assertJsonPath('user.role', 'owner');
+    }
+
+    public function test_owner_account_registration_rejects_non_allowlisted_email(): void
+    {
+        config([
+            'services.owner_emails' => ['owner@example.com'],
+            'services.owner_setup_code' => 'a-strong-owner-setup-code',
+        ]);
+
+        $this->postJson('/api/register', [
+            'name' => 'Unapproved Owner',
+            'email' => 'someone@example.com',
+            'password' => 'a-unique-password-123',
+            'password_confirmation' => 'a-unique-password-123',
+            'account_type' => 'owner',
+            'owner_setup_code' => 'a-strong-owner-setup-code',
+        ])->assertUnprocessable()
+            ->assertJsonValidationErrors(['owner_setup_code']);
+
+        $this->assertDatabaseMissing('users', ['email' => 'someone@example.com']);
     }
 
     public function test_existing_configured_owner_account_requires_setup_code_to_be_promoted_on_login(): void

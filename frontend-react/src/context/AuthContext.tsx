@@ -18,6 +18,7 @@ interface AuthContextValue {
     password: string,
     passwordConfirmation: string,
     ownerSetupCode: string,
+    accountType: 'employee' | 'owner',
   ) => Promise<void>
   logout: () => Promise<void>
 }
@@ -46,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setToken(data.token)
       setUser(data.user)
     },
-    async register(name, email, password, passwordConfirmation, ownerSetupCode) {
+    async register(name, email, password, passwordConfirmation, ownerSetupCode, accountType) {
       await ensureCsrfCookie()
       const { data } = await api.post<{ token: string; user: AuthUser }>('/register', {
         name,
@@ -54,6 +55,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password,
         password_confirmation: passwordConfirmation,
         owner_setup_code: ownerSetupCode || undefined,
+        account_type: accountType,
       })
       localStorage.setItem('texo_auth_token', data.token)
       localStorage.setItem('texo_auth_user', JSON.stringify(data.user))
