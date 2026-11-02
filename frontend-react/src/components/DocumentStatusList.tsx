@@ -136,7 +136,7 @@ export function DocumentStatusList({ documents, loading, departmentFilter }: Pro
     if (departmentFilter && departmentFilter !== 'all') {
       return (document.department ?? 'general') === departmentFilter
     }
-    if (!user || user.role === 'gm' || user.role === 'admin') return true
+    if (!user || user.role === 'owner' || user.role === 'gm' || user.role === 'admin') return true
     const allowed = user.role === 'qa'
       ? ['qa', 'general']
       : user.role === 'hr'

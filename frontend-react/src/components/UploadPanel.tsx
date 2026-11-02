@@ -43,7 +43,7 @@ const DEPARTMENTS = [
 type TrackStatus = 'uploaded' | 'processing' | 'indexed' | 'failed'
 
 function allowedDepartmentsForRole(role: string | undefined): readonly string[] {
-  if (role === 'gm' || role === 'admin') return DEPARTMENTS
+  if (role === 'owner') return DEPARTMENTS
   if (role === 'qa') return ['qa', 'general']
   if (role === 'hr') return ['hr_training', 'general']
   if (role === 'compliance') return ['compliance_sustainability', 'general']

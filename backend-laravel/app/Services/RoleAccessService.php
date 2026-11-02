@@ -12,7 +12,7 @@ class RoleAccessService
     public function allowedDepartments(User $user): array
     {
         return match ($user->role) {
-            'gm', 'admin' => [
+            'owner', 'gm', 'admin' => [
                 'production',
                 'qa',
                 'compliance_sustainability',
@@ -46,5 +46,10 @@ class RoleAccessService
     public function canAccess(?string $department, User $user): bool
     {
         return in_array($department ?? 'general', $this->allowedDepartments($user), true);
+    }
+
+    public function canUpload(User $user): bool
+    {
+        return $user->role === 'owner';
     }
 }

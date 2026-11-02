@@ -51,7 +51,9 @@ function AuthenticatedApp() {
 
   if (!user) return <LoginScreen />
 
-  const accessLabel = user.role === 'gm' || user.role === 'admin'
+  const accessLabel = user.role === 'owner'
+    ? 'Company Owner · All Departments'
+    : user.role === 'gm' || user.role === 'admin'
     ? 'All Departments'
     : user.role === 'qa'
       ? 'QA + General'
@@ -60,8 +62,12 @@ function AuthenticatedApp() {
         : user.role === 'compliance'
           ? 'Compliance + General'
           : 'General Only'
-  const canViewManagementTabs = user.role === 'gm' || user.role === 'admin'
-  const accessBadge = user.role === 'gm' || user.role === 'admin'
+  const canViewManagementTabs = user.role === 'owner' || user.role === 'gm' || user.role === 'admin'
+  const canUploadDocuments = user.role === 'owner'
+  const hasAllDepartmentAccess = user.role === 'owner' || user.role === 'gm' || user.role === 'admin'
+  const accessBadge = user.role === 'owner'
+    ? { classes: 'border-amber-500/40 bg-amber-500/10 text-amber-200', icon: 'shield' }
+    : user.role === 'gm' || user.role === 'admin'
     ? { classes: 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200', icon: 'shield' }
     : user.role === 'hr'
       ? { classes: 'border-blue-500/40 bg-blue-500/10 text-blue-200', icon: 'people' }
@@ -123,7 +129,7 @@ function AuthenticatedApp() {
               <span className="mx-2 text-slate-600">|</span>
               <span className="text-slate-400">Access: <strong className="text-slate-200">{accessLabel}</strong></span>
             </div>
-          {(user.role === 'gm' || user.role === 'admin') && (
+          {hasAllDepartmentAccess && (
             <label className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 px-3 py-1 text-sm text-slate-300">
               <span className="text-slate-500">Department Filter</span>
               <select
@@ -221,11 +227,11 @@ function AuthenticatedApp() {
         {activeTab !== 'dashboard' || !canViewManagementTabs ? (
           <div className="flex min-h-[600px] flex-col items-stretch gap-6 lg:h-[calc(100vh-250px)] lg:flex-row">
             <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-4">
-              <UploadPanel onUploaded={() => void refresh()} />
+              {canUploadDocuments && <UploadPanel onUploaded={() => void refresh()} />}
               <DocumentStatusList
                 documents={documents}
                 loading={loading}
-                departmentFilter={user.role === 'gm' || user.role === 'admin' ? departmentFilter : undefined}
+                departmentFilter={hasAllDepartmentAccess ? departmentFilter : undefined}
               />
             </div>
             <div className="grid h-full min-h-0 min-w-0 flex-1 grid-rows-[minmax(0,1fr)_16rem] gap-4">
@@ -236,7 +242,7 @@ function AuthenticatedApp() {
                 error={chat.error}
                 onSend={chat.sendMessage}
                 suggestionsRevision={suggestionsRevision}
-                departmentFilter={user.role === 'gm' || user.role === 'admin' ? departmentFilter : undefined}
+                departmentFilter={hasAllDepartmentAccess ? departmentFilter : undefined}
               />
               <div className="h-64 shrink-0">
                 <RetrievedContextPanel chunks={chat.retrievedChunks} />

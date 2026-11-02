@@ -39,6 +39,12 @@ class DocumentController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        if (! app(RoleAccessService::class)->canUpload($request->user())) {
+            return response()->json([
+                'message' => 'Only the configured company owner can upload documents.',
+            ], 403);
+        }
+
         $validated = $request->validate([
             'file' => [
                 'required',
@@ -170,8 +176,7 @@ class DocumentController extends Controller
         Document $document,
         Request $request,
         RoleAccessService $roleAccessService,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         if (! $roleAccessService->canAccess($document->department, $request->user())) {
             return response()->json([
                 'message' => 'You do not have permission to view this document.',
@@ -213,8 +218,7 @@ class DocumentController extends Controller
         Request $request,
         RoleAccessService $roleAccessService,
         RagServiceClient $ragServiceClient,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         if (! $roleAccessService->canAccess($document->department, $request->user())) {
             return response()->json([
                 'message' => 'You do not have permission to delete this document.',

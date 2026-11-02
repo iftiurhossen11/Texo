@@ -8,6 +8,7 @@ export function LoginScreen() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
+  const [ownerSetupCode, setOwnerSetupCode] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -17,9 +18,9 @@ export function LoginScreen() {
     setLoading(true)
     try {
       if (isRegistering) {
-        await register(name, email, password, passwordConfirmation)
+        await register(name, email, password, passwordConfirmation, ownerSetupCode)
       } else {
-        await login(email, password)
+        await login(email, password, ownerSetupCode)
       }
     } catch {
       setError(isRegistering
@@ -82,6 +83,20 @@ export function LoginScreen() {
               className="mt-1 w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-emerald-400"
             />
           </label>
+          <label className="block text-sm text-slate-300">
+            Company owner setup code
+            <input
+              type="password"
+              autoComplete="off"
+              maxLength={255}
+              value={ownerSetupCode}
+              onChange={(event) => setOwnerSetupCode(event.target.value)}
+              className="mt-1 w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-emerald-400"
+            />
+            <span className="mt-1 block text-xs text-slate-500">
+              Only the configured company owner email can use this code.
+            </span>
+          </label>
           {isRegistering && (
             <label className="block text-sm text-slate-300">
               Confirm password
@@ -99,7 +114,7 @@ export function LoginScreen() {
           )}
           {isRegistering && (
             <p className="text-xs text-slate-400">
-              New accounts receive employee access and can only view general documents.
+              New accounts receive employee access unless the configured owner email and setup code are provided.
             </p>
           )}
           {error && <p className="text-sm text-red-300">{error}</p>}

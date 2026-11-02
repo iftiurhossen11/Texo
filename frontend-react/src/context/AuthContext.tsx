@@ -11,8 +11,14 @@ export interface AuthUser {
 interface AuthContextValue {
   user: AuthUser | null
   token: string | null
-  login: (email: string, password: string) => Promise<void>
-  register: (name: string, email: string, password: string, passwordConfirmation: string) => Promise<void>
+  login: (email: string, password: string, ownerSetupCode: string) => Promise<void>
+  register: (
+    name: string,
+    email: string,
+    password: string,
+    passwordConfirmation: string,
+    ownerSetupCode: string,
+  ) => Promise<void>
   logout: () => Promise<void>
 }
 
@@ -28,21 +34,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const value = useMemo<AuthContextValue>(() => ({
     user,
     token,
-    async login(email, password) {
+    async login(email, password, ownerSetupCode) {
       await ensureCsrfCookie()
-      const { data } = await api.post<{ token: string; user: AuthUser }>('/login', { email, password })
+      const { data } = await api.post<{ token: string; user: AuthUser }>('/login', {
+        email,
+        password,
+        owner_setup_code: ownerSetupCode || undefined,
+      })
       localStorage.setItem('texo_auth_token', data.token)
       localStorage.setItem('texo_auth_user', JSON.stringify(data.user))
       setToken(data.token)
       setUser(data.user)
     },
-    async register(name, email, password, passwordConfirmation) {
+    async register(name, email, password, passwordConfirmation, ownerSetupCode) {
       await ensureCsrfCookie()
       const { data } = await api.post<{ token: string; user: AuthUser }>('/register', {
         name,
         email,
         password,
         password_confirmation: passwordConfirmation,
+        owner_setup_code: ownerSetupCode || undefined,
       })
       localStorage.setItem('texo_auth_token', data.token)
       localStorage.setItem('texo_auth_user', JSON.stringify(data.user))

@@ -50,4 +50,71 @@ class PublicRegistrationTest extends TestCase
         ])->assertUnprocessable()
             ->assertJsonValidationErrors(['email', 'password']);
     }
+
+    public function test_configured_owner_email_requires_setup_code_to_register_as_owner(): void
+    {
+        config([
+            'services.owner_emails' => ['owner@example.com'],
+            'services.owner_setup_code' => 'a-strong-owner-setup-code',
+        ]);
+
+        $this->postJson('/api/register', [
+            'name' => 'Texo Owner',
+            'email' => 'Owner@Example.com',
+            'password' => 'a-unique-password-123',
+            'password_confirmation' => 'a-unique-password-123',
+            'role' => 'admin',
+        ])->assertUnprocessable()
+            ->assertJsonValidationErrors(['owner_setup_code']);
+
+        $this->postJson('/api/register', [
+            'name' => 'Texo Owner',
+            'email' => 'Owner@Example.com',
+            'password' => 'a-unique-password-123',
+            'password_confirmation' => 'a-unique-password-123',
+            'role' => 'admin',
+            'owner_setup_code' => 'a-strong-owner-setup-code',
+        ])->assertCreated()
+            ->assertJsonPath('user.role', 'owner');
+    }
+
+    public function test_existing_configured_owner_account_requires_setup_code_to_be_promoted_on_login(): void
+    {
+        config([
+            'services.owner_emails' => ['owner@example.com'],
+            'services.owner_setup_code' => 'a-strong-owner-setup-code',
+        ]);
+        User::query()->create([
+            'name' => 'Texo Owner',
+            'email' => 'owner@example.com',
+            'password' => 'a-unique-password-123',
+            'role' => 'employee',
+        ]);
+
+        $this->postJson('/api/login', [
+            'email' => 'owner@example.com',
+            'password' => 'a-unique-password-123',
+        ])->assertOk()
+            ->assertJsonPath('user.role', 'employee');
+
+        $this->postJson('/api/login', [
+            'email' => 'owner@example.com',
+            'password' => 'a-unique-password-123',
+            'owner_setup_code' => 'a-strong-owner-setup-code',
+        ])->assertOk()
+            ->assertJsonPath('user.role', 'owner');
+
+        $employee = User::query()->create([
+            'name' => 'Regular User',
+            'email' => 'employee@example.com',
+            'password' => 'a-unique-password-123',
+            'role' => 'employee',
+        ]);
+        $this->postJson('/api/login', [
+            'email' => $employee->email,
+            'password' => 'a-unique-password-123',
+            'owner_setup_code' => 'a-strong-owner-setup-code',
+        ])->assertOk()
+            ->assertJsonPath('user.role', 'employee');
+    }
 }

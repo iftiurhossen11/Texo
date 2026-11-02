@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Jobs\ProcessDocumentJob;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -13,7 +14,7 @@ class DocumentUploadAuthorizationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_employee_can_upload_general_documents_but_not_other_departments(): void
+    public function test_only_owner_can_upload_documents(): void
     {
         Storage::fake('local');
         Queue::fake();
@@ -30,20 +31,40 @@ class DocumentUploadAuthorizationTest extends TestCase
             'file' => UploadedFile::fake()->createWithContent('factory-guide.txt', 'General factory guidance.'),
             'doc_type' => 'sop',
             'department' => 'general',
-        ])->assertCreated()
+        ])->assertForbidden();
+
+        $gm = User::query()->create([
+            'name' => 'General Manager',
+            'email' => 'general.manager@example.com',
+            'password' => 'test-password',
+            'role' => 'gm',
+        ]);
+        $this->actingAs($gm, 'sanctum')
+            ->post('/api/documents', [
+                'file' => UploadedFile::fake()->createWithContent('qa-guide.txt', 'Quality guidance.'),
+                'doc_type' => 'sop',
+                'department' => 'qa',
+            ])->assertForbidden();
+
+        $owner = User::query()->create([
+            'name' => 'Factory Owner',
+            'email' => 'factory.owner@example.com',
+            'password' => 'test-password',
+            'role' => 'owner',
+        ]);
+        $this->actingAs($owner, 'sanctum')
+            ->post('/api/documents', [
+                'file' => UploadedFile::fake()->createWithContent('qa-guide.txt', 'Quality guidance.'),
+                'doc_type' => 'sop',
+                'department' => 'qa',
+            ])->assertCreated()
             ->assertJsonPath('status', 'uploaded');
 
         $this->assertDatabaseHas('documents', [
-            'original_filename' => 'factory-guide.txt',
-            'department' => 'general',
-            'uploaded_by' => $employee->id,
-        ]);
-        Queue::assertPushed(\App\Jobs\ProcessDocumentJob::class);
-
-        $this->post('/api/documents', [
-            'file' => UploadedFile::fake()->createWithContent('qa-guide.txt', 'Quality guidance.'),
-            'doc_type' => 'sop',
+            'original_filename' => 'qa-guide.txt',
             'department' => 'qa',
-        ])->assertForbidden();
+            'uploaded_by' => $owner->id,
+        ]);
+        Queue::assertPushed(ProcessDocumentJob::class);
     }
 }

@@ -40,6 +40,12 @@ return [
         'api_token' => env('RAG_API_TOKEN'),
     ],
 
+    'owner_emails' => array_values(array_filter(array_map(
+        static fn (string $email): string => strtolower(trim($email)),
+        explode(',', (string) env('TEXO_OWNER_EMAILS', '')),
+    ))),
+    'owner_setup_code' => env('TEXO_OWNER_SETUP_CODE'),
+
     'llm' => [
         'provider' => env('LLM_PROVIDER', 'groq'),
         'anthropic_api_key' => env('ANTHROPIC_API_KEY'),

@@ -4,6 +4,8 @@ Texo helps Bangladesh's textile and apparel teams organize department-specific d
 
 **Live website:** [Open Texo](https://frontend-react-rho-two.vercel.app/)
 
+Only the company owner can upload documents. Set `TEXO_OWNER_EMAILS` and a long random `TEXO_OWNER_SETUP_CODE` in the Laravel environment. The configured owner must provide both the matching email and setup code when registering or signing in to activate the owner role. Public registration cannot assign privileged roles.
+
 ## Stack
 
 | Layer | Tech |

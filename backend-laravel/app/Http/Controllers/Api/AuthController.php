@@ -23,7 +23,15 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Password::min(12)->max(128)],
+            'owner_setup_code' => ['nullable', 'string', 'max:255'],
         ]);
+
+        if ($this->isConfiguredOwnerEmail($validated['email'])
+            && ! $this->ownerSetupCodeMatches($validated['owner_setup_code'] ?? null)) {
+            throw ValidationException::withMessages([
+                'owner_setup_code' => ['A valid owner setup code is required for this email address.'],
+            ]);
+        }
 
         $user = User::query()->create([
             'name' => $validated['name'],
@@ -31,6 +39,7 @@ class AuthController extends Controller
             'password' => $validated['password'],
             'role' => 'employee',
         ]);
+        $user = $this->syncConfiguredOwnerRole($user, $validated['owner_setup_code'] ?? null);
 
         return response()->json([
             'token' => $user->createToken('texo-web')->plainTextToken,
@@ -43,6 +52,7 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
+            'owner_setup_code' => ['nullable', 'string', 'max:255'],
         ]);
 
         $user = User::query()->where('email', Str::lower($credentials['email']))->first();
@@ -53,6 +63,7 @@ class AuthController extends Controller
             ]);
         }
 
+        $user = $this->syncConfiguredOwnerRole($user, $credentials['owner_setup_code'] ?? null);
         $token = $user->createToken('texo-demo')->plainTextToken;
 
         return response()->json([
@@ -73,5 +84,34 @@ class AuthController extends Controller
         return response()->json([
             'user' => $request->user(),
         ]);
+    }
+
+    private function syncConfiguredOwnerRole(User $user, ?string $ownerSetupCode): User
+    {
+        $isConfiguredOwner = $this->isConfiguredOwnerEmail($user->email);
+        $mayBecomeOwner = $isConfiguredOwner
+            && ($user->role === 'owner' || $this->ownerSetupCodeMatches($ownerSetupCode));
+        $role = $mayBecomeOwner ? 'owner' : ($user->role === 'owner' ? 'employee' : $user->role);
+
+        if ($user->role !== $role) {
+            $user->forceFill(['role' => $role])->save();
+        }
+
+        return $user;
+    }
+
+    private function isConfiguredOwnerEmail(string $email): bool
+    {
+        return in_array(Str::lower($email), config('services.owner_emails', []), true);
+    }
+
+    private function ownerSetupCodeMatches(?string $providedCode): bool
+    {
+        $configuredCode = config('services.owner_setup_code');
+
+        return is_string($configuredCode)
+            && $configuredCode !== ''
+            && is_string($providedCode)
+            && hash_equals($configuredCode, $providedCode);
     }
 }
