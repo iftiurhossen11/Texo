@@ -93,12 +93,14 @@ class RagServiceClient
 
     public function deleteDocument(int $documentId, int $workspaceId): void
     {
-        $url = rtrim(config('services.rag.url'), '/')."/documents/{$documentId}";
+        $url = rtrim(config('services.rag.url'), '/')."/documents/{$documentId}?".http_build_query([
+            'workspace_id' => $workspaceId,
+        ]);
 
         $response = Http::timeout(self::TIMEOUT_SECONDS)
             ->retry(2, 500, throw: false)
             ->withHeaders($this->ragHeaders())
-            ->delete($url, ['workspace_id' => $workspaceId]);
+            ->delete($url);
 
         if ($response->failed()) {
             Log::error('RAG delete failed.', [
