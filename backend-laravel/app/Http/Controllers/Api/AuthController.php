@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Workspace;
+use App\Models\WorkspaceInvite;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
@@ -29,36 +32,89 @@ class AuthController extends Controller
             ],
             'owner_setup_code' => ['nullable', 'string', 'max:255'],
             'account_type' => ['nullable', 'in:employee,company_owner,factory_owner'],
+            'workspace_name' => ['nullable', 'string', 'max:255'],
+            'invitation_code' => ['required_if:account_type,employee', 'nullable', 'string', 'max:255'],
         ]);
 
         $isConfiguredOwner = $this->isConfiguredOwnerEmail($validated['email']);
         $hasValidOwnerSetupCode = $this->ownerSetupCodeMatches($validated['owner_setup_code'] ?? null);
         $accountType = $validated['account_type'] ?? 'employee';
+        $isOwnerBootstrap = $accountType !== 'employee'
+            && $isConfiguredOwner
+            && $hasValidOwnerSetupCode;
 
-        if ($accountType !== 'employee'
-            && (! $isConfiguredOwner || ! $hasValidOwnerSetupCode)) {
+        if ($accountType !== 'employee' && ! $isOwnerBootstrap && empty($validated['invitation_code'])) {
             throw ValidationException::withMessages([
                 'owner_setup_code' => ['Owner account creation requires the configured owner email and a valid setup code.'],
             ]);
         }
 
-        if ($isConfiguredOwner && ! $hasValidOwnerSetupCode && ! array_key_exists('account_type', $validated)) {
+        if ($accountType === 'employee' && empty($validated['invitation_code'])) {
             throw ValidationException::withMessages([
-                'owner_setup_code' => ['A valid owner setup code is required for this email address.'],
+                'invitation_code' => ['A workspace invitation code is required to create an account.'],
             ]);
         }
 
-        $user = User::query()->create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => $validated['password'],
-            'role' => $accountType,
-        ]);
-        $user = $this->syncConfiguredOwnerRole(
-            $user,
-            $validated['owner_setup_code'] ?? null,
-            $accountType,
-        );
+        $user = DB::transaction(function () use ($validated, $accountType, $isOwnerBootstrap): User {
+            if ($isOwnerBootstrap) {
+                if (! isset($validated['workspace_name']) || trim($validated['workspace_name']) === '') {
+                    throw ValidationException::withMessages([
+                        'workspace_name' => ['Enter your company or factory name.'],
+                    ]);
+                }
+
+                $workspace = Workspace::query()
+                    ->where('name', 'Texo Workspace')
+                    ->whereNull('primary_owner_id')
+                    ->first();
+
+                if ($workspace === null) {
+                    $workspace = Workspace::query()->create(['name' => trim($validated['workspace_name'])]);
+                } else {
+                    $workspace->update(['name' => trim($validated['workspace_name'])]);
+                }
+
+                $user = User::query()->create([
+                    'name' => $validated['name'],
+                    'email' => $validated['email'],
+                    'password' => $validated['password'],
+                    'role' => $accountType,
+                    'workspace_id' => $workspace->id,
+                ]);
+                $workspace->update(['primary_owner_id' => $user->id]);
+
+                return $user;
+            }
+
+            $invite = WorkspaceInvite::query()
+                ->where('token_hash', hash('sha256', $validated['invitation_code']))
+                ->lockForUpdate()
+                ->first();
+
+            if ($invite === null || $invite->uses_remaining < 1 || $invite->expires_at->isPast()) {
+                throw ValidationException::withMessages([
+                    'invitation_code' => ['This invitation code is invalid, expired, or has no uses remaining.'],
+                ]);
+            }
+
+            $isOwnerInvite = in_array($invite->role, ['company_owner', 'factory_owner'], true);
+            if (($accountType !== 'employee' || $isOwnerInvite)
+                && $invite->role !== $accountType) {
+                throw ValidationException::withMessages([
+                    'invitation_code' => ['This code was not issued for the selected owner account type.'],
+                ]);
+            }
+
+            $invite->decrement('uses_remaining');
+
+            return User::query()->create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => $validated['password'],
+                'role' => $invite->role,
+                'workspace_id' => $invite->workspace_id,
+            ]);
+        });
 
         return response()->json([
             'token' => $user->createToken('texo-web')->plainTextToken,
@@ -123,7 +179,7 @@ class AuthController extends Controller
             : null;
 
         if (! $isConfiguredOwner) {
-            $role = $isOwnerRole ? 'employee' : $user->role;
+            $role = $user->role;
         } elseif ($requestedOwnerRole !== null && $hasValidSetupCode) {
             $role = $requestedOwnerRole;
         } elseif ($isOwnerRole) {
@@ -136,6 +192,13 @@ class AuthController extends Controller
 
         if ($user->role !== $role) {
             $user->forceFill(['role' => $role])->save();
+        }
+
+        if (in_array($role, ['owner', 'company_owner', 'factory_owner'], true) && $user->workspace_id !== null) {
+            Workspace::query()
+                ->whereKey($user->workspace_id)
+                ->whereNull('primary_owner_id')
+                ->update(['primary_owner_id' => $user->id]);
         }
 
         return $user;

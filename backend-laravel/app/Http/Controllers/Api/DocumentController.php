@@ -41,7 +41,7 @@ class DocumentController extends Controller
     {
         if (! app(RoleAccessService::class)->canUpload($request->user())) {
             return response()->json([
-                'message' => 'Only the configured company owner can upload documents.',
+                'message' => 'Only company and factory owners can upload documents.',
             ], 403);
         }
 
@@ -117,7 +117,11 @@ class DocumentController extends Controller
 
         $originalFilename = $file->getClientOriginalName();
         $storageFilename = Str::uuid()->toString().'_'.$originalFilename;
-        $storagePath = $file->storeAs('documents', $storageFilename, 'local');
+        $storagePath = $file->storeAs(
+            "workspaces/{$request->user()->workspace_id}/documents",
+            $storageFilename,
+            'local',
+        );
 
         if ($storagePath === false) {
             return response()->json([
@@ -126,6 +130,7 @@ class DocumentController extends Controller
         }
 
         $document = Document::query()->create([
+            'workspace_id' => $request->user()->workspace_id,
             'title' => $validated['title'] ?? pathinfo($originalFilename, PATHINFO_FILENAME),
             'original_filename' => $originalFilename,
             'file_type' => $fileType,
@@ -150,6 +155,7 @@ class DocumentController extends Controller
     public function index(Request $request, RoleAccessService $roleAccessService): JsonResponse
     {
         $documents = Document::query()
+            ->where('workspace_id', $request->user()->workspace_id)
             ->whereIn('department', $roleAccessService->allowedDepartments($request->user()))
             ->orderByDesc('created_at')
             ->get([
@@ -173,10 +179,14 @@ class DocumentController extends Controller
     }
 
     public function show(
-        Document $document,
+        int $document,
         Request $request,
         RoleAccessService $roleAccessService,
     ): JsonResponse {
+        $document = Document::query()
+            ->where('workspace_id', $request->user()->workspace_id)
+            ->findOrFail($document);
+
         if (! $roleAccessService->canAccess($document->department, $request->user())) {
             return response()->json([
                 'message' => 'You do not have permission to view this document.',
@@ -188,8 +198,12 @@ class DocumentController extends Controller
         ]);
     }
 
-    public function view(Document $document, Request $request, RoleAccessService $roleAccessService)
+    public function view(int $document, Request $request, RoleAccessService $roleAccessService)
     {
+        $document = Document::query()
+            ->where('workspace_id', $request->user()->workspace_id)
+            ->findOrFail($document);
+
         if (! $roleAccessService->canAccess($document->department, $request->user())) {
             return response()->json([
                 'message' => 'You do not have permission to view this document.',
@@ -214,11 +228,15 @@ class DocumentController extends Controller
     }
 
     public function destroy(
-        Document $document,
+        int $document,
         Request $request,
         RoleAccessService $roleAccessService,
         RagServiceClient $ragServiceClient,
     ): JsonResponse {
+        $document = Document::query()
+            ->where('workspace_id', $request->user()->workspace_id)
+            ->findOrFail($document);
+
         if (! $roleAccessService->canAccess($document->department, $request->user())) {
             return response()->json([
                 'message' => 'You do not have permission to delete this document.',
@@ -226,7 +244,7 @@ class DocumentController extends Controller
         }
 
         try {
-            $ragServiceClient->deleteDocument($document->id);
+            $ragServiceClient->deleteDocument($document->id, $document->workspace_id);
         } catch (\Throwable $exception) {
             report($exception);
         }

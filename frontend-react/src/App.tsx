@@ -7,6 +7,7 @@ import { DocumentStatusList } from './components/DocumentStatusList'
 import { RetrievedContextPanel } from './components/RetrievedContextPanel'
 import { LoginScreen } from './components/LoginScreen'
 import { UploadPanel } from './components/UploadPanel'
+import { WorkspaceInvitePanel } from './components/WorkspaceInvitePanel'
 import { isOwnerRole, useAuth } from './context/AuthContext'
 import { useChat } from './hooks/useChat'
 import { useDocuments } from './hooks/useDocuments'
@@ -252,7 +253,10 @@ function AuthenticatedApp() {
             </div>
           </div>
         ) : (
-          <AnalyticsDashboard />
+          <div className="space-y-6">
+            <AnalyticsDashboard />
+            {isOwner && <WorkspaceInvitePanel />}
+          </div>
         )}
       </main>
       {helpOpen && (

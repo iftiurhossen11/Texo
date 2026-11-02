@@ -16,6 +16,7 @@ router = APIRouter(tags=["ingest"], dependencies=[Depends(require_rag_api_token)
 
 async def _process_ingest(
     document_id: int,
+    workspace_id: int,
     doc_type: str,
     department: str,
     extracted,
@@ -41,12 +42,19 @@ async def _process_ingest(
         for chunk in text_chunks
     ]
 
-    deleted = vector_store.delete_by_document_id(document_id)
+    deleted = vector_store.delete_by_document_id(document_id, workspace_id)
     if deleted:
         logger.info("Deleted %d existing vectors for document_id=%s", deleted, document_id)
 
     embeddings = embedder.embed_passages([c["content"] for c in chunk_payloads])
-    vector_ids = vector_store.upsert_chunks(document_id, doc_type, department, chunk_payloads, embeddings)
+    vector_ids = vector_store.upsert_chunks(
+        document_id,
+        workspace_id,
+        doc_type,
+        department,
+        chunk_payloads,
+        embeddings,
+    )
 
     results = [
         {
@@ -66,6 +74,7 @@ async def _process_ingest(
 @router.post("/ingest", response_model=IngestResponse)
 async def ingest(
     document_id: int = Form(...),
+    workspace_id: int = Form(...),
     doc_type: str = Form(...),
     department: str = Form(default="general"),
     file: UploadFile | None = File(default=None),
@@ -113,7 +122,7 @@ async def ingest(
             detail=IngestErrorResponse(error="ingest_failed", detail=str(exc)).model_dump(),
         ) from exc
 
-    response = await _process_ingest(document_id, doc_type, department, extracted)
+    response = await _process_ingest(document_id, workspace_id, doc_type, department, extracted)
     logger.info(
         "Ingest complete document_id=%s total_chunks=%s",
         document_id,

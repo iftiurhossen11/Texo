@@ -35,6 +35,7 @@ def get_collection() -> Collection:
             name=COLLECTION_NAME,
             metadata={"hnsw:space": "cosine"},
         )
+        _migrate_legacy_workspace_metadata(_collection)
         logger.info(
             "Chroma collection '%s' ready (space=cosine, path=%s)",
             COLLECTION_NAME,
@@ -43,16 +44,43 @@ def get_collection() -> Collection:
     return _collection
 
 
-def delete_by_document_id(document_id: int) -> int:
+def _migrate_legacy_workspace_metadata(collection: Collection) -> None:
+    total = collection.count()
+    for offset in range(0, total, 500):
+        batch = collection.get(
+            limit=500,
+            offset=offset,
+            include=["metadatas"],
+        )
+        ids = batch.get("ids") or []
+        metadatas = batch.get("metadatas")
+        if metadatas is None:
+            metadatas = [None] * len(ids)
+        updates = [
+            (vector_id, {**(metadata or {}), "workspace_id": 1})
+            for vector_id, metadata in zip(ids, metadatas)
+            if not (metadata or {}).get("workspace_id")
+        ]
+        if updates:
+            collection.update(
+                ids=[vector_id for vector_id, _ in updates],
+                metadatas=[metadata for _, metadata in updates],
+            )
+
+
+def delete_by_document_id(document_id: int, workspace_id: int) -> int:
     if settings.vector_store_backend == "postgres":
         from services.pg_vector_store import delete_by_document_id as delete_from_postgres
 
-        return delete_from_postgres(document_id)
+        return delete_from_postgres(document_id, workspace_id)
     if settings.vector_store_backend != "chroma":
         raise RuntimeError(f"Unsupported vector store backend: {settings.vector_store_backend}")
 
     collection = get_collection()
-    existing = collection.get(where={"document_id": document_id}, include=[])
+    existing = collection.get(
+        where={"$and": [{"document_id": document_id}, {"workspace_id": workspace_id}]},
+        include=[],
+    )
     ids = existing.get("ids") or []
     if ids:
         collection.delete(ids=ids)
@@ -61,6 +89,7 @@ def delete_by_document_id(document_id: int) -> int:
 
 def upsert_chunks(
     document_id: int,
+    workspace_id: int,
     doc_type: str,
     department: str,
     chunks: list[dict[str, Any]],
@@ -69,7 +98,7 @@ def upsert_chunks(
     if settings.vector_store_backend == "postgres":
         from services.pg_vector_store import upsert_chunks as upsert_to_postgres
 
-        return upsert_to_postgres(document_id, doc_type, department, chunks, embeddings)
+        return upsert_to_postgres(document_id, workspace_id, doc_type, department, chunks, embeddings)
     if settings.vector_store_backend != "chroma":
         raise RuntimeError(f"Unsupported vector store backend: {settings.vector_store_backend}")
 
@@ -85,6 +114,7 @@ def upsert_chunks(
         metadatas.append(
             {
                 "document_id": document_id,
+                "workspace_id": workspace_id,
                 "chunk_index": chunk["chunk_index"],
                 "section_heading": chunk.get("section_heading") or "",
                 "page_number": chunk.get("page_number") if chunk.get("page_number") is not None else -1,
@@ -104,6 +134,7 @@ def upsert_chunks(
 
 def query_similar(
     query_embedding: list[float],
+    workspace_id: int,
     top_k: int,
     doc_type_filter: str | None = None,
     document_id_filter: int | None = None,
@@ -114,6 +145,7 @@ def query_similar(
 
         return query_postgres(
             query_embedding,
+            workspace_id,
             top_k,
             doc_type_filter,
             document_id_filter,
@@ -126,6 +158,7 @@ def query_similar(
     where: dict[str, Any] | None = None
 
     filters: list[dict[str, Any]] = []
+    filters.append({"workspace_id": workspace_id})
     if doc_type_filter:
         filters.append({"doc_type": doc_type_filter})
     if document_id_filter is not None:
@@ -180,5 +213,8 @@ def count_vectors_for_document(document_id: int) -> int:
         raise RuntimeError(f"Unsupported vector store backend: {settings.vector_store_backend}")
 
     collection = get_collection()
-    existing = collection.get(where={"document_id": document_id}, include=[])
+    existing = collection.get(
+        where={"document_id": document_id},
+        include=[],
+    )
     return len(existing.get("ids") or [])

@@ -21,6 +21,7 @@ async def retrieve(body: RetrieveRequest) -> RetrieveResponse:
     query_embedding = embedder.embed_query(body.query.strip())
     raw_results = vector_store.query_similar(
         query_embedding=query_embedding,
+        workspace_id=body.workspace_id,
         top_k=body.top_k,
         doc_type_filter=body.doc_type_filter,
         document_id_filter=body.document_id_filter,

@@ -14,12 +14,13 @@ router = APIRouter(tags=["documents"], dependencies=[Depends(require_rag_api_tok
 
 
 @router.delete("/documents/{document_id}")
-async def delete_document_vectors(document_id: int) -> dict[str, int | str]:
-    deleted = vector_store.delete_by_document_id(document_id)
+async def delete_document_vectors(document_id: int, workspace_id: int) -> dict[str, int | str]:
+    deleted = vector_store.delete_by_document_id(document_id, workspace_id)
     logger.info("Deleted %d vectors for document_id=%s", deleted, document_id)
 
     return {
         "status": "ok",
         "document_id": document_id,
+        "workspace_id": workspace_id,
         "deleted_vectors": deleted,
     }

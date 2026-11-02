@@ -12,6 +12,7 @@ class Document extends Model
 
     protected $fillable = [
         'title',
+        'workspace_id',
         'original_filename',
         'file_type',
         'storage_path',
@@ -35,6 +36,11 @@ class Document extends Model
     public function uploader(): BelongsTo
     {
         return $this->belongsTo(User::class, 'uploaded_by');
+    }
+
+    public function workspace(): BelongsTo
+    {
+        return $this->belongsTo(Workspace::class);
     }
 
     public function chunks(): HasMany

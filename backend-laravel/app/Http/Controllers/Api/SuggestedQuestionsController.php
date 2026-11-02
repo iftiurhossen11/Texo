@@ -13,6 +13,7 @@ class SuggestedQuestionsController extends Controller
     public function __invoke(Request $request, RoleAccessService $roleAccessService): JsonResponse
     {
         $documents = Document::query()
+            ->where('workspace_id', $request->user()->workspace_id)
             ->where('status', 'indexed')
             ->whereIn('department', $roleAccessService->allowedDepartments($request->user()))
             ->select('department')

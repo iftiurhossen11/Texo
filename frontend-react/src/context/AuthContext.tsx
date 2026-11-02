@@ -6,6 +6,7 @@ export interface AuthUser {
   name: string
   email: string
   role: string
+  workspace_id: number
 }
 
 export type AccountType = 'employee' | 'company_owner' | 'factory_owner'
@@ -25,6 +26,8 @@ interface AuthContextValue {
     passwordConfirmation: string,
     ownerSetupCode: string,
     accountType: AccountType,
+    invitationCode: string,
+    workspaceName: string,
   ) => Promise<void>
   logout: () => Promise<void>
 }
@@ -54,7 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setToken(data.token)
       setUser(data.user)
     },
-    async register(name, email, password, passwordConfirmation, ownerSetupCode, accountType) {
+    async register(name, email, password, passwordConfirmation, ownerSetupCode, accountType, invitationCode, workspaceName) {
       await ensureCsrfCookie()
       const { data } = await api.post<{ token: string; user: AuthUser }>('/register', {
         name,
@@ -63,6 +66,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password_confirmation: passwordConfirmation,
         owner_setup_code: ownerSetupCode || undefined,
         account_type: accountType,
+        invitation_code: invitationCode || undefined,
+        workspace_name: workspaceName || undefined,
       })
       localStorage.setItem('texo_auth_token', data.token)
       localStorage.setItem('texo_auth_user', JSON.stringify(data.user))

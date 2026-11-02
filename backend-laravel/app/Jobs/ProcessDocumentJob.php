@@ -53,6 +53,7 @@ class ProcessDocumentJob implements ShouldQueue
 
             $response = $ragServiceClient->ingest(
                 documentId: $document->id,
+                workspaceId: $document->workspace_id,
                 docType: $document->doc_type,
                 department: $document->department,
                 absoluteFilePath: $absolutePath,

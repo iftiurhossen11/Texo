@@ -4,7 +4,6 @@ namespace App\Services;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
@@ -13,7 +12,7 @@ class RagServiceClient
 {
     private const TIMEOUT_SECONDS = 120;
 
-    public function ingest(int $documentId, string $docType, ?string $department, string $absoluteFilePath, ?string $sourceUrl = null): array
+    public function ingest(int $documentId, int $workspaceId, string $docType, ?string $department, string $absoluteFilePath, ?string $sourceUrl = null): array
     {
         $url = rtrim(config('services.rag.url'), '/').'/ingest';
 
@@ -24,6 +23,7 @@ class RagServiceClient
         if ($sourceUrl !== null) {
             $response = $request->asMultipart()->post($url, [
                 ['name' => 'document_id', 'contents' => (string) $documentId],
+                ['name' => 'workspace_id', 'contents' => (string) $workspaceId],
                 ['name' => 'doc_type', 'contents' => $docType],
                 ['name' => 'department', 'contents' => $department ?? 'general'],
                 ['name' => 'source_url', 'contents' => $sourceUrl],
@@ -35,6 +35,7 @@ class RagServiceClient
                 basename($absoluteFilePath),
             )->post($url, [
                 'document_id' => $documentId,
+                'workspace_id' => $workspaceId,
                 'doc_type' => $docType,
                 'department' => $department ?? 'general',
             ]);
@@ -56,13 +57,13 @@ class RagServiceClient
 
     public function retrieve(
         string $query,
+        int $workspaceId,
         int $topK = 3,
         ?string $docTypeFilter = null,
         ?int $documentIdFilter = null,
         ?string $userRole = null,
         ?array $allowedDepartments = null,
-    ): array
-    {
+    ): array {
         $url = rtrim(config('services.rag.url'), '/').'/retrieve';
 
         $response = Http::timeout(self::TIMEOUT_SECONDS)
@@ -70,6 +71,7 @@ class RagServiceClient
             ->withHeaders($this->ragHeaders())
             ->post($url, array_filter([
                 'query' => $query,
+                'workspace_id' => $workspaceId,
                 'top_k' => $topK,
                 'doc_type_filter' => $docTypeFilter,
                 'document_id_filter' => $documentIdFilter,
@@ -89,14 +91,14 @@ class RagServiceClient
         return $response->json('results') ?? [];
     }
 
-    public function deleteDocument(int $documentId): void
+    public function deleteDocument(int $documentId, int $workspaceId): void
     {
         $url = rtrim(config('services.rag.url'), '/')."/documents/{$documentId}";
 
         $response = Http::timeout(self::TIMEOUT_SECONDS)
             ->retry(2, 500, throw: false)
             ->withHeaders($this->ragHeaders())
-            ->delete($url);
+            ->delete($url, ['workspace_id' => $workspaceId]);
 
         if ($response->failed()) {
             Log::error('RAG delete failed.', [

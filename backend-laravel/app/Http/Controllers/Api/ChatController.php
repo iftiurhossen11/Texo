@@ -36,6 +36,8 @@ class ChatController extends Controller
 
         $session = ChatSession::query()->create([
             'session_uuid' => (string) Str::uuid(),
+            'workspace_id' => $request->user()->workspace_id,
+            'user_id' => $request->user()->id,
             'context_tag' => $validated['context_tag'],
             'started_at' => now(),
         ]);
@@ -48,8 +50,13 @@ class ChatController extends Controller
         ], 201);
     }
 
-    public function storeMessage(Request $request, ChatSession $session): JsonResponse
+    public function storeMessage(Request $request, int $session): JsonResponse
     {
+        $session = ChatSession::query()
+            ->where('workspace_id', $request->user()->workspace_id)
+            ->where('user_id', $request->user()->id)
+            ->findOrFail($session);
+
         $validated = $request->validate([
             'content' => ['required', 'string', 'min:1', 'max:500', 'regex:/\S/'],
             'department_filter' => [
@@ -105,6 +112,7 @@ class ChatController extends Controller
             }
             $retrieved = $this->ragServiceClient->retrieve(
                 $validated['content'],
+                workspaceId: $user->workspace_id,
                 topK: 3,
                 userRole: $user->role,
                 allowedDepartments: $allowedDepartments ?: ['__no_access__'],
@@ -132,6 +140,7 @@ class ChatController extends Controller
             $vectorIds = collect($retrieved)->pluck('vector_id')->filter()->all();
             $dbChunks = DocumentChunk::query()
                 ->with('document:id,title,original_filename,department')
+                ->whereHas('document', fn ($query) => $query->where('workspace_id', $user->workspace_id))
                 ->whereIn('vector_id', $vectorIds)
                 ->get()
                 ->keyBy('vector_id');
@@ -240,8 +249,13 @@ class ChatController extends Controller
         }
     }
 
-    public function showSession(ChatSession $session): JsonResponse
+    public function showSession(Request $request, int $session): JsonResponse
     {
+        $session = ChatSession::query()
+            ->where('workspace_id', $request->user()->workspace_id)
+            ->where('user_id', $request->user()->id)
+            ->findOrFail($session);
+
         $session->load(['messages' => function ($query) {
             $query->orderBy('created_at');
         }]);

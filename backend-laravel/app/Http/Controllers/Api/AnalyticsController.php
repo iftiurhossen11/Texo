@@ -4,21 +4,23 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use App\Services\RoleAccessService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AnalyticsController extends Controller
 {
     public function __invoke(Request $request, RoleAccessService $roleAccessService): JsonResponse
     {
         $totalIndexed = Document::query()
+            ->where('workspace_id', $request->user()->workspace_id)
             ->where('status', 'indexed')
             ->whereIn('department', $roleAccessService->allowedDepartments($request->user()))
             ->count();
 
         $byDepartment = Document::query()
+            ->where('workspace_id', $request->user()->workspace_id)
             ->where('status', 'indexed')
             ->whereIn('department', $roleAccessService->allowedDepartments($request->user()))
             ->select('department', DB::raw('COUNT(*) as count'))

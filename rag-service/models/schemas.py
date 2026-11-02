@@ -18,6 +18,7 @@ class IngestResponse(BaseModel):
 
 class RetrieveRequest(BaseModel):
     query: str = Field(..., min_length=1)
+    workspace_id: int = Field(..., ge=1)
     top_k: int = Field(default=3, ge=3, le=20)
     doc_type_filter: str | None = None
     document_id_filter: int | None = None

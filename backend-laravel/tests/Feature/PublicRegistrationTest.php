@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\Workspace;
+use App\Models\WorkspaceInvite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Tests\TestCase;
@@ -13,11 +15,13 @@ class PublicRegistrationTest extends TestCase
 
     public function test_registration_creates_an_employee_account_and_returns_a_token(): void
     {
+        $invitationCode = $this->createInvitation('employee');
         $response = $this->postJson('/api/register', [
             'name' => 'Texo User',
             'email' => 'NewUser@Example.com',
             'password' => 'Texo-Strong-Pass-123',
             'password_confirmation' => 'Texo-Strong-Pass-123',
+            'invitation_code' => $invitationCode,
             'role' => 'gm',
         ]);
 
@@ -101,6 +105,7 @@ class PublicRegistrationTest extends TestCase
             'role' => 'admin',
             'account_type' => 'company_owner',
             'owner_setup_code' => 'a-strong-owner-setup-code',
+            'workspace_name' => 'Texo Factory',
         ])->assertCreated()
             ->assertJsonPath('user.role', 'company_owner');
     }
@@ -139,6 +144,7 @@ class PublicRegistrationTest extends TestCase
             'password_confirmation' => 'Texo-Strong-Pass-123',
             'account_type' => 'factory_owner',
             'owner_setup_code' => 'a-strong-owner-setup-code',
+            'workspace_name' => 'Texo Factory',
         ])->assertCreated()
             ->assertJsonPath('user.role', 'factory_owner');
     }
@@ -203,5 +209,103 @@ class PublicRegistrationTest extends TestCase
             'owner_setup_code' => 'a-strong-owner-setup-code',
         ])->assertOk()
             ->assertJsonPath('user.role', 'employee');
+    }
+
+    public function test_registration_assigns_the_role_and_workspace_from_the_invitation(): void
+    {
+        $code = $this->createInvitation('qa', uses: 2);
+
+        $this->postJson('/api/register', [
+            'name' => 'QA User',
+            'email' => 'qa.user@example.com',
+            'password' => 'Texo-Strong-Pass-123',
+            'password_confirmation' => 'Texo-Strong-Pass-123',
+            'invitation_code' => $code,
+        ])->assertCreated()
+            ->assertJsonPath('user.role', 'qa')
+            ->assertJsonPath('user.workspace_id', Workspace::query()->value('id'));
+
+        $this->assertDatabaseHas('workspace_invites', [
+            'token_hash' => hash('sha256', $code),
+            'uses_remaining' => 1,
+        ]);
+    }
+
+    public function test_invitation_code_cannot_be_reused_after_its_uses_are_consumed(): void
+    {
+        $code = $this->createInvitation('employee');
+        $payload = [
+            'name' => 'First User',
+            'email' => 'first.user@example.com',
+            'password' => 'Texo-Strong-Pass-123',
+            'password_confirmation' => 'Texo-Strong-Pass-123',
+            'invitation_code' => $code,
+        ];
+
+        $this->postJson('/api/register', $payload)->assertCreated();
+        $payload['email'] = 'second.user@example.com';
+
+        $this->postJson('/api/register', $payload)
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['invitation_code']);
+    }
+
+    public function test_owner_invitation_grants_owner_role_and_preserves_it_on_login(): void
+    {
+        config([
+            'services.owner_emails' => [],
+            'services.owner_setup_code' => null,
+        ]);
+        $code = $this->createInvitation('company_owner');
+
+        $this->postJson('/api/register', [
+            'name' => 'Invited Owner',
+            'email' => 'invited.owner@example.com',
+            'password' => 'Texo-Strong-Pass-123',
+            'password_confirmation' => 'Texo-Strong-Pass-123',
+            'account_type' => 'employee',
+            'invitation_code' => $code,
+        ])->assertUnprocessable()
+            ->assertJsonValidationErrors(['invitation_code']);
+
+        $this->postJson('/api/register', [
+            'name' => 'Invited Owner',
+            'email' => 'invited.owner@example.com',
+            'password' => 'Texo-Strong-Pass-123',
+            'password_confirmation' => 'Texo-Strong-Pass-123',
+            'account_type' => 'company_owner',
+            'invitation_code' => $code,
+        ])->assertCreated()
+            ->assertJsonPath('user.role', 'company_owner');
+
+        $this->postJson('/api/login', [
+            'email' => 'invited.owner@example.com',
+            'password' => 'Texo-Strong-Pass-123',
+        ])->assertOk()
+            ->assertJsonPath('user.role', 'company_owner');
+    }
+
+    private function createInvitation(string $role, int $uses = 1): string
+    {
+        $workspace = Workspace::query()->firstOrFail();
+        $owner = User::query()->create([
+            'name' => 'Workspace Owner',
+            'email' => 'workspace.owner@example.com',
+            'password' => 'Texo-Strong-Pass-123',
+            'role' => 'company_owner',
+            'workspace_id' => $workspace->id,
+        ]);
+        $workspace->update(['primary_owner_id' => $owner->id]);
+        $code = 'valid-workspace-invitation-code';
+        WorkspaceInvite::query()->create([
+            'workspace_id' => $workspace->id,
+            'created_by' => $owner->id,
+            'token_hash' => hash('sha256', $code),
+            'role' => $role,
+            'uses_remaining' => $uses,
+            'expires_at' => now()->addDay(),
+        ]);
+
+        return $code;
     }
 }

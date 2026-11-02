@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\HealthController;
 use App\Http\Controllers\Api\PasswordRecoveryController;
 use App\Http\Controllers\Api\SuggestedQuestionsController;
+use App\Http\Controllers\Api\WorkspaceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/health', HealthController::class);
@@ -22,6 +23,10 @@ Route::post('/reset-password', [PasswordRecoveryController::class, 'reset'])
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
+    Route::get('/workspace', [WorkspaceController::class, 'show']);
+    Route::get('/workspace/invites', [WorkspaceController::class, 'invites']);
+    Route::post('/workspace/invites', [WorkspaceController::class, 'createInvite']);
+    Route::delete('/workspace/invites/{invite}', [WorkspaceController::class, 'revokeInvite']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {

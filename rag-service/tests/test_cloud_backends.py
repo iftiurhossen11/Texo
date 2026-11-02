@@ -39,7 +39,7 @@ class CloudflareEmbeddingsTests(unittest.TestCase):
 
 
 class PostgresVectorStoreTests(unittest.TestCase):
-    def test_allowed_departments_are_in_the_database_query(self) -> None:
+    def test_workspace_and_department_filters_are_in_the_database_query(self) -> None:
         vector_text = "[" + ",".join(["0.0"] * 768) + "]"
 
         class FakeCursor:
@@ -82,6 +82,7 @@ class PostgresVectorStoreTests(unittest.TestCase):
         ):
             results = pg_vector_store.query_similar(
                 query_embedding=[0.0] * 768,
+                workspace_id=7,
                 top_k=3,
                 doc_type_filter="sop",
                 document_id_filter=1,
@@ -89,12 +90,14 @@ class PostgresVectorStoreTests(unittest.TestCase):
             )
 
         self.assertIn("doc_type = %s", cursor.query)
+        self.assertIn("workspace_id = %s", cursor.query)
         self.assertIn("document_id = %s", cursor.query)
         self.assertIn("department = ANY(%s)", cursor.query)
         self.assertEqual(
             cursor.parameters,
             [
                 vector_text,
+                7,
                 "sop",
                 1,
                 ["hr_training", "general"],
@@ -108,6 +111,7 @@ class PostgresVectorStoreTests(unittest.TestCase):
         with patch("services.pg_vector_store._connect") as connect:
             results = pg_vector_store.query_similar(
                 query_embedding=[0.0] * 768,
+                workspace_id=7,
                 top_k=3,
                 allowed_departments=[],
             )

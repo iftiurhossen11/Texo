@@ -20,6 +20,8 @@ export function LoginScreen() {
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
   const [ownerSetupCode, setOwnerSetupCode] = useState('')
+  const [invitationCode, setInvitationCode] = useState('')
+  const [workspaceName, setWorkspaceName] = useState('')
   const isOwnerAccount = isOwnerRole(accountType)
   const showOwnerSetupCode = (isRegistering && isOwnerAccount) || (!isRegistering && isOwnerActivation)
   const [error, setError] = useState<string | null>(null)
@@ -63,6 +65,8 @@ export function LoginScreen() {
           passwordConfirmation,
           isOwnerAccount ? ownerSetupCode : '',
           accountType,
+          invitationCode,
+          workspaceName,
         )
       } else {
         await login(
@@ -115,8 +119,8 @@ export function LoginScreen() {
               ? 'Choose a strong new password for your Texo account.'
               : isRegistering
             ? isOwnerAccount
-              ? `Create the ${accountType === 'company_owner' ? 'company' : 'factory'} owner account with the authorized owner email and setup code.`
-              : 'Create a standard employee account to access general factory documents and AI chat.'
+              ? `Create or join a ${accountType === 'company_owner' ? 'company' : 'factory'} workspace using an owner setup code or invitation.`
+              : 'Use an invitation code from your company or factory owner to join the workspace.'
             : 'Sign in to access your role-based factory knowledge workspace.'}
         </p>
         {recoveryMessage && (
@@ -179,6 +183,39 @@ export function LoginScreen() {
               />
             </label>
           )}
+          {!isRecoveryFlow && isRegistering && isOwnerAccount && (
+            <label className="block text-sm text-slate-300">
+              Company or factory name
+              <input
+                type="text"
+                required={invitationCode.trim().length === 0}
+                maxLength={255}
+                value={workspaceName}
+                onChange={(event) => setWorkspaceName(event.target.value)}
+                className="mt-1 w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-emerald-400"
+              />
+              <span className="mt-1 block text-xs text-slate-500">
+                Required when creating a workspace with the owner setup code.
+              </span>
+            </label>
+          )}
+          {!isRecoveryFlow && isRegistering && (
+            <label className="block text-sm text-slate-300">
+              Workspace invitation code
+              <input
+                type="text"
+                required={!isOwnerAccount}
+                autoComplete="off"
+                maxLength={255}
+                value={invitationCode}
+                onChange={(event) => setInvitationCode(event.target.value)}
+                className="mt-1 w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-emerald-400"
+              />
+              <span className="mt-1 block text-xs text-slate-500">
+                Get this code from a workspace owner. Owner invitations can also be used to join as an owner.
+              </span>
+            </label>
+          )}
           <label className="block text-sm text-slate-300">
             Email
             <input
@@ -220,7 +257,7 @@ export function LoginScreen() {
               Company owner setup code
               <input
                 type="password"
-                required={isOwnerActivation || (isRegistering && isOwnerAccount)}
+                required={isOwnerActivation}
                 autoComplete="off"
                 maxLength={255}
                 value={ownerSetupCode}
@@ -263,7 +300,7 @@ export function LoginScreen() {
           </label>}
           {!isRecoveryFlow && isRegistering && isOwnerAccount && (
             <p className="text-xs text-slate-400">
-              Owner access is granted only when your email is on the authorized owner list and you provide the setup code.
+              To create a workspace, use an authorized owner email and setup code. To join an existing workspace, enter an owner invitation code.
             </p>
           )}
           {error && <p role="alert" className="text-sm text-red-300">{error}</p>}
@@ -309,6 +346,8 @@ export function LoginScreen() {
               })
               setRecoveryMessage(null)
               setOwnerSetupCode('')
+              setInvitationCode('')
+              setWorkspaceName('')
               setError(null)
             }}
             className="font-semibold text-emerald-300 hover:text-emerald-200"

@@ -32,6 +32,7 @@ def ensure_schema() -> None:
             CREATE TABLE IF NOT EXISTS {TABLE_NAME} (
                 vector_id TEXT PRIMARY KEY,
                 document_id BIGINT NOT NULL,
+                workspace_id BIGINT NOT NULL DEFAULT 1,
                 chunk_index INTEGER NOT NULL,
                 section_heading TEXT,
                 page_number INTEGER,
@@ -43,6 +44,9 @@ def ensure_schema() -> None:
             """
         )
         cursor.execute(
+            f"ALTER TABLE {TABLE_NAME} ADD COLUMN IF NOT EXISTS workspace_id BIGINT NOT NULL DEFAULT 1"
+        )
+        cursor.execute(
             f"""
             CREATE INDEX IF NOT EXISTS texo_rag_chunks_embedding_idx
             ON {TABLE_NAME} USING hnsw (embedding vector_cosine_ops)
@@ -50,6 +54,9 @@ def ensure_schema() -> None:
         )
         cursor.execute(
             f"CREATE INDEX IF NOT EXISTS texo_rag_chunks_document_idx ON {TABLE_NAME} (document_id)"
+        )
+        cursor.execute(
+            f"CREATE INDEX IF NOT EXISTS texo_rag_chunks_workspace_idx ON {TABLE_NAME} (workspace_id)"
         )
 
 
@@ -59,17 +66,18 @@ def _as_vector(values: list[float]) -> str:
     return "[" + ",".join(str(float(value)) for value in values) + "]"
 
 
-def delete_by_document_id(document_id: int) -> int:
+def delete_by_document_id(document_id: int, workspace_id: int) -> int:
     with _connect() as connection, connection.cursor() as cursor:
         cursor.execute(
-            f"DELETE FROM {TABLE_NAME} WHERE document_id = %s",
-            (document_id,),
+            f"DELETE FROM {TABLE_NAME} WHERE document_id = %s AND workspace_id = %s",
+            (document_id, workspace_id),
         )
         return cursor.rowcount
 
 
 def upsert_chunks(
     document_id: int,
+    workspace_id: int,
     doc_type: str,
     department: str,
     chunks: list[dict[str, Any]],
@@ -86,12 +94,13 @@ def upsert_chunks(
             cursor.execute(
                 f"""
                 INSERT INTO {TABLE_NAME} (
-                    vector_id, document_id, chunk_index, section_heading,
+                    vector_id, document_id, workspace_id, chunk_index, section_heading,
                     page_number, content, doc_type, department, embedding
                 )
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s::vector)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s::vector)
                 ON CONFLICT (vector_id) DO UPDATE SET
                     document_id = EXCLUDED.document_id,
+                    workspace_id = EXCLUDED.workspace_id,
                     chunk_index = EXCLUDED.chunk_index,
                     section_heading = EXCLUDED.section_heading,
                     page_number = EXCLUDED.page_number,
@@ -103,6 +112,7 @@ def upsert_chunks(
                 (
                     vector_id,
                     document_id,
+                    workspace_id,
                     chunk["chunk_index"],
                     chunk.get("section_heading") or None,
                     chunk.get("page_number"),
@@ -118,6 +128,7 @@ def upsert_chunks(
 
 def query_similar(
     query_embedding: list[float],
+    workspace_id: int,
     top_k: int,
     doc_type_filter: str | None = None,
     document_id_filter: int | None = None,
@@ -126,9 +137,9 @@ def query_similar(
     if allowed_departments is not None and not allowed_departments:
         return []
 
-    conditions = ["embedding IS NOT NULL"]
+    conditions = ["embedding IS NOT NULL", "workspace_id = %s"]
     vector = _as_vector(query_embedding)
-    parameters: list[Any] = [vector]
+    parameters: list[Any] = [vector, workspace_id]
     if doc_type_filter:
         conditions.append("doc_type = %s")
         parameters.append(doc_type_filter)
