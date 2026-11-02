@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { api } from '../api/client'
 import type { DocumentRow } from '../hooks/useDocuments'
 import { LoadingState } from './StateViews'
-import { useAuth } from '../context/AuthContext'
+import { isOwnerRole, useAuth } from '../context/AuthContext'
 
 const statusColor: Record<string, string> = {
   uploaded: 'bg-yellow-500/20 text-yellow-300',
@@ -136,7 +136,7 @@ export function DocumentStatusList({ documents, loading, departmentFilter }: Pro
     if (departmentFilter && departmentFilter !== 'all') {
       return (document.department ?? 'general') === departmentFilter
     }
-    if (!user || user.role === 'owner' || user.role === 'gm' || user.role === 'admin') return true
+    if (!user || isOwnerRole(user.role) || user.role === 'gm' || user.role === 'admin') return true
     const allowed = user.role === 'qa'
       ? ['qa', 'general']
       : user.role === 'hr'

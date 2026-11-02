@@ -1,17 +1,18 @@
 import { useState } from 'react'
-import { useAuth } from '../context/AuthContext'
+import { isOwnerRole, type AccountType, useAuth } from '../context/AuthContext'
 
 export function LoginScreen() {
   const { login, register } = useAuth()
+  const isOwnerActivation = new URLSearchParams(window.location.search).get('owner-activation') === '1'
   const [isRegistering, setIsRegistering] = useState(false)
-  const [isOwnerAccount, setIsOwnerAccount] = useState(false)
+  const [accountType, setAccountType] = useState<AccountType>(() => isOwnerActivation ? 'company_owner' : 'employee')
   const [showPasswords, setShowPasswords] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
   const [ownerSetupCode, setOwnerSetupCode] = useState('')
-  const isOwnerActivation = new URLSearchParams(window.location.search).get('owner-activation') === '1'
+  const isOwnerAccount = isOwnerRole(accountType)
   const showOwnerSetupCode = (isRegistering && isOwnerAccount) || (!isRegistering && isOwnerActivation)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -28,15 +29,22 @@ export function LoginScreen() {
           password,
           passwordConfirmation,
           isOwnerAccount ? ownerSetupCode : '',
-          isOwnerAccount ? 'owner' : 'employee',
+          accountType,
         )
       } else {
-        await login(email, password, isOwnerActivation ? ownerSetupCode : '')
+        await login(
+          email,
+          password,
+          isOwnerActivation ? ownerSetupCode : '',
+          isOwnerActivation ? accountType : undefined,
+        )
       }
     } catch {
-      setError(isRegistering
-        ? 'Unable to create your account. Check your details, use a unique email, and try again.'
-        : 'Invalid email or password.')
+      setError(isRegistering && isOwnerAccount
+        ? 'Owner account creation requires an authorized email and a valid setup code.'
+        : isRegistering
+          ? 'Unable to create your account. Check your details, use a unique email, and try again.'
+          : 'Invalid email or password.')
     } finally {
       setLoading(false)
     }
@@ -48,54 +56,39 @@ export function LoginScreen() {
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-400">TEXO</p>
         <h1 className="mt-3 text-3xl font-bold text-white">
           {isRegistering
-            ? isOwnerAccount ? 'Create your owner account' : 'Create your Texo account'
+            ? isOwnerAccount ? `Create your ${accountType === 'company_owner' ? 'company' : 'factory'} owner account` : 'Create your Texo account'
             : 'Secure workspace login'}
         </h1>
         <p className="mt-2 text-sm text-slate-400">
           {isRegistering
             ? isOwnerAccount
-              ? 'Create the company owner account with the authorized owner email and setup code.'
+              ? `Create the ${accountType === 'company_owner' ? 'company' : 'factory'} owner account with the authorized owner email and setup code.`
               : 'Create a standard employee account to access general factory documents and AI chat.'
             : 'Sign in to access your role-based factory knowledge workspace.'}
         </p>
         <form className="mt-6 space-y-4" onSubmit={submit}>
-          {isRegistering && (
-            <fieldset>
-              <legend className="mb-2 text-sm text-slate-300">Account type</legend>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  aria-pressed={!isOwnerAccount}
-                  onClick={() => {
-                    setIsOwnerAccount(false)
-                    setOwnerSetupCode('')
-                    setError(null)
-                  }}
-                  className={`rounded-xl border px-3 py-3 text-sm font-semibold ${
-                    !isOwnerAccount
-                      ? 'border-emerald-400 bg-emerald-400/10 text-emerald-200'
-                      : 'border-slate-700 text-slate-300 hover:border-slate-500'
-                  }`}
-                >
-                  Standard user
-                </button>
-                <button
-                  type="button"
-                  aria-pressed={isOwnerAccount}
-                  onClick={() => {
-                    setIsOwnerAccount(true)
-                    setError(null)
-                  }}
-                  className={`rounded-xl border px-3 py-3 text-sm font-semibold ${
-                    isOwnerAccount
-                      ? 'border-emerald-400 bg-emerald-400/10 text-emerald-200'
-                      : 'border-slate-700 text-slate-300 hover:border-slate-500'
-                  }`}
-                >
-                  Company owner
-                </button>
-              </div>
-            </fieldset>
+          {(isRegistering || isOwnerActivation) && (
+            <label className="block text-sm text-slate-300">
+              Account type
+              <select
+                value={accountType}
+                onChange={(event) => {
+                  const selectedType = event.target.value
+                  setAccountType(
+                    selectedType === 'company_owner' || selectedType === 'factory_owner'
+                      ? selectedType
+                      : 'employee',
+                  )
+                  setOwnerSetupCode('')
+                  setError(null)
+                }}
+                className="mt-1 w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-emerald-400"
+              >
+                {isRegistering && <option value="employee">Standard user</option>}
+                <option value="company_owner">Company Owner</option>
+                <option value="factory_owner">Factory Owner</option>
+              </select>
+            </label>
           )}
           {isRegistering && (
             <label className="block text-sm text-slate-300">
@@ -141,7 +134,7 @@ export function LoginScreen() {
               Company owner setup code
               <input
                 type="password"
-                required={isRegistering && isOwnerAccount}
+                required={isOwnerActivation || (isRegistering && isOwnerAccount)}
                 autoComplete="off"
                 maxLength={255}
                 value={ownerSetupCode}
@@ -179,7 +172,7 @@ export function LoginScreen() {
           </label>
           {isRegistering && isOwnerAccount && (
             <p className="text-xs text-slate-400">
-              Owner access is granted only when your email and setup code are authorized.
+              Owner access is granted only when your email is on the authorized owner list and you provide the setup code.
             </p>
           )}
           {error && <p className="text-sm text-red-300">{error}</p>}
@@ -197,7 +190,7 @@ export function LoginScreen() {
             type="button"
             onClick={() => {
               setIsRegistering((current) => {
-                if (current) setIsOwnerAccount(false)
+                if (current) setAccountType('employee')
                 return !current
               })
               setOwnerSetupCode('')

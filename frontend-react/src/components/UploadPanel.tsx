@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api } from '../api/client'
 import { ErrorState } from './StateViews'
-import { useAuth } from '../context/AuthContext'
+import { isOwnerRole, useAuth } from '../context/AuthContext'
 
 const DOC_TYPES = [
   'sop',
@@ -43,7 +43,7 @@ const DEPARTMENTS = [
 type TrackStatus = 'uploaded' | 'processing' | 'indexed' | 'failed'
 
 function allowedDepartmentsForRole(role: string | undefined): readonly string[] {
-  if (role === 'owner') return DEPARTMENTS
+  if (isOwnerRole(role)) return DEPARTMENTS
   if (role === 'qa') return ['qa', 'general']
   if (role === 'hr') return ['hr_training', 'general']
   if (role === 'compliance') return ['compliance_sustainability', 'general']

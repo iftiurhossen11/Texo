@@ -24,20 +24,21 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Password::min(12)->max(128)],
             'owner_setup_code' => ['nullable', 'string', 'max:255'],
-            'account_type' => ['nullable', 'in:employee,owner'],
+            'account_type' => ['nullable', 'in:employee,company_owner,factory_owner'],
         ]);
 
         $isConfiguredOwner = $this->isConfiguredOwnerEmail($validated['email']);
         $hasValidOwnerSetupCode = $this->ownerSetupCodeMatches($validated['owner_setup_code'] ?? null);
+        $accountType = $validated['account_type'] ?? 'employee';
 
-        if (($validated['account_type'] ?? 'employee') === 'owner'
+        if ($accountType !== 'employee'
             && (! $isConfiguredOwner || ! $hasValidOwnerSetupCode)) {
             throw ValidationException::withMessages([
                 'owner_setup_code' => ['Owner account creation requires the configured owner email and a valid setup code.'],
             ]);
         }
 
-        if ($isConfiguredOwner && ! $hasValidOwnerSetupCode) {
+        if ($isConfiguredOwner && ! $hasValidOwnerSetupCode && ! array_key_exists('account_type', $validated)) {
             throw ValidationException::withMessages([
                 'owner_setup_code' => ['A valid owner setup code is required for this email address.'],
             ]);
@@ -47,9 +48,13 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password'],
-            'role' => 'employee',
+            'role' => $accountType,
         ]);
-        $user = $this->syncConfiguredOwnerRole($user, $validated['owner_setup_code'] ?? null);
+        $user = $this->syncConfiguredOwnerRole(
+            $user,
+            $validated['owner_setup_code'] ?? null,
+            $accountType,
+        );
 
         return response()->json([
             'token' => $user->createToken('texo-web')->plainTextToken,
@@ -63,6 +68,7 @@ class AuthController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
             'owner_setup_code' => ['nullable', 'string', 'max:255'],
+            'account_type' => ['nullable', 'in:employee,company_owner,factory_owner'],
         ]);
 
         $user = User::query()->where('email', Str::lower($credentials['email']))->first();
@@ -73,7 +79,11 @@ class AuthController extends Controller
             ]);
         }
 
-        $user = $this->syncConfiguredOwnerRole($user, $credentials['owner_setup_code'] ?? null);
+        $user = $this->syncConfiguredOwnerRole(
+            $user,
+            $credentials['owner_setup_code'] ?? null,
+            $credentials['account_type'] ?? null,
+        );
         $token = $user->createToken('texo-demo')->plainTextToken;
 
         return response()->json([
@@ -96,12 +106,29 @@ class AuthController extends Controller
         ]);
     }
 
-    private function syncConfiguredOwnerRole(User $user, ?string $ownerSetupCode): User
-    {
+    private function syncConfiguredOwnerRole(
+        User $user,
+        ?string $ownerSetupCode,
+        ?string $accountType = null,
+    ): User {
         $isConfiguredOwner = $this->isConfiguredOwnerEmail($user->email);
-        $mayBecomeOwner = $isConfiguredOwner
-            && ($user->role === 'owner' || $this->ownerSetupCodeMatches($ownerSetupCode));
-        $role = $mayBecomeOwner ? 'owner' : ($user->role === 'owner' ? 'employee' : $user->role);
+        $isOwnerRole = in_array($user->role, ['owner', 'company_owner', 'factory_owner'], true);
+        $hasValidSetupCode = $this->ownerSetupCodeMatches($ownerSetupCode);
+        $requestedOwnerRole = in_array($accountType, ['company_owner', 'factory_owner'], true)
+            ? $accountType
+            : null;
+
+        if (! $isConfiguredOwner) {
+            $role = $isOwnerRole ? 'employee' : $user->role;
+        } elseif ($requestedOwnerRole !== null && $hasValidSetupCode) {
+            $role = $requestedOwnerRole;
+        } elseif ($isOwnerRole) {
+            $role = $user->role;
+        } elseif ($hasValidSetupCode) {
+            $role = 'company_owner';
+        } else {
+            $role = $user->role;
+        }
 
         if ($user->role !== $role) {
             $user->forceFill(['role' => $role])->save();

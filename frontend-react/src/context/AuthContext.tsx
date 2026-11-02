@@ -8,17 +8,23 @@ export interface AuthUser {
   role: string
 }
 
+export type AccountType = 'employee' | 'company_owner' | 'factory_owner'
+
+export function isOwnerRole(role: string | undefined): boolean {
+  return role === 'owner' || role === 'company_owner' || role === 'factory_owner'
+}
+
 interface AuthContextValue {
   user: AuthUser | null
   token: string | null
-  login: (email: string, password: string, ownerSetupCode: string) => Promise<void>
+  login: (email: string, password: string, ownerSetupCode: string, accountType?: AccountType) => Promise<void>
   register: (
     name: string,
     email: string,
     password: string,
     passwordConfirmation: string,
     ownerSetupCode: string,
-    accountType: 'employee' | 'owner',
+    accountType: AccountType,
   ) => Promise<void>
   logout: () => Promise<void>
 }
@@ -35,12 +41,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const value = useMemo<AuthContextValue>(() => ({
     user,
     token,
-    async login(email, password, ownerSetupCode) {
+    async login(email, password, ownerSetupCode, accountType) {
       await ensureCsrfCookie()
       const { data } = await api.post<{ token: string; user: AuthUser }>('/login', {
         email,
         password,
         owner_setup_code: ownerSetupCode || undefined,
+        account_type: accountType,
       })
       localStorage.setItem('texo_auth_token', data.token)
       localStorage.setItem('texo_auth_user', JSON.stringify(data.user))

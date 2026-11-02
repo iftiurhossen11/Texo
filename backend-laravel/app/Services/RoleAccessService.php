@@ -12,7 +12,7 @@ class RoleAccessService
     public function allowedDepartments(User $user): array
     {
         return match ($user->role) {
-            'owner', 'gm', 'admin' => [
+            'owner', 'company_owner', 'factory_owner', 'gm', 'admin' => [
                 'production',
                 'qa',
                 'compliance_sustainability',
@@ -50,6 +50,6 @@ class RoleAccessService
 
     public function canUpload(User $user): bool
     {
-        return $user->role === 'owner';
+        return in_array($user->role, ['owner', 'company_owner', 'factory_owner'], true);
     }
 }

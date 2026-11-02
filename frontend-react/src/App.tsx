@@ -7,7 +7,7 @@ import { DocumentStatusList } from './components/DocumentStatusList'
 import { RetrievedContextPanel } from './components/RetrievedContextPanel'
 import { LoginScreen } from './components/LoginScreen'
 import { UploadPanel } from './components/UploadPanel'
-import { useAuth } from './context/AuthContext'
+import { isOwnerRole, useAuth } from './context/AuthContext'
 import { useChat } from './hooks/useChat'
 import { useDocuments } from './hooks/useDocuments'
 
@@ -51,8 +51,10 @@ function AuthenticatedApp() {
 
   if (!user) return <LoginScreen />
 
-  const accessLabel = user.role === 'owner'
-    ? 'Company Owner · All Departments'
+  const isOwner = isOwnerRole(user.role)
+  const ownerLabel = user.role === 'factory_owner' ? 'Factory Owner' : 'Company Owner'
+  const accessLabel = isOwner
+    ? `${ownerLabel} · All Departments`
     : user.role === 'gm' || user.role === 'admin'
     ? 'All Departments'
     : user.role === 'qa'
@@ -62,10 +64,10 @@ function AuthenticatedApp() {
         : user.role === 'compliance'
           ? 'Compliance + General'
           : 'General Only'
-  const canViewManagementTabs = user.role === 'owner' || user.role === 'gm' || user.role === 'admin'
-  const canUploadDocuments = user.role === 'owner'
-  const hasAllDepartmentAccess = user.role === 'owner' || user.role === 'gm' || user.role === 'admin'
-  const accessBadge = user.role === 'owner'
+  const canViewManagementTabs = isOwner || user.role === 'gm' || user.role === 'admin'
+  const canUploadDocuments = isOwner
+  const hasAllDepartmentAccess = isOwner || user.role === 'gm' || user.role === 'admin'
+  const accessBadge = isOwner
     ? { classes: 'border-amber-500/40 bg-amber-500/10 text-amber-200', icon: 'shield' }
     : user.role === 'gm' || user.role === 'admin'
     ? { classes: 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200', icon: 'shield' }

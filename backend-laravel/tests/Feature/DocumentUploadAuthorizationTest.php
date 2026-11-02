@@ -65,6 +65,24 @@ class DocumentUploadAuthorizationTest extends TestCase
             'department' => 'qa',
             'uploaded_by' => $owner->id,
         ]);
+
+        foreach (['company_owner', 'factory_owner'] as $ownerRole) {
+            $typedOwner = User::query()->create([
+                'name' => ucfirst(str_replace('_', ' ', $ownerRole)),
+                'email' => "{$ownerRole}@example.com",
+                'password' => 'test-password',
+                'role' => $ownerRole,
+            ]);
+
+            $this->actingAs($typedOwner, 'sanctum')
+                ->post('/api/documents', [
+                    'file' => UploadedFile::fake()->createWithContent("{$ownerRole}.txt", 'Owner guidance.'),
+                    'doc_type' => 'sop',
+                    'department' => 'general',
+                ])->assertCreated()
+                ->assertJsonPath('status', 'uploaded');
+        }
+
         Queue::assertPushed(ProcessDocumentJob::class);
     }
 }
