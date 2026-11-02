@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import jsPDF from 'jspdf'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { useTranslation } from 'react-i18next'
@@ -93,7 +92,8 @@ export function ChatWindow({
     return text || '[Bengali text omitted for PDF compatibility]'
   }
 
-  const handleExportPdf = () => {
+  const handleExportPdf = async () => {
+    const { default: jsPDF } = await import('jspdf')
     const doc = new jsPDF()
     let y = 20
     const margin = 20

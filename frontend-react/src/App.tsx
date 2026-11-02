@@ -1,16 +1,23 @@
-import { useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ensureCsrfCookie } from './api/client'
-import { ChatWindow } from './components/ChatWindow'
-import { AnalyticsDashboard } from './components/AnalyticsDashboard'
 import { DocumentStatusList } from './components/DocumentStatusList'
-import { RetrievedContextPanel } from './components/RetrievedContextPanel'
 import { LoginScreen } from './components/LoginScreen'
 import { UploadPanel } from './components/UploadPanel'
 import { WorkspaceInvitePanel } from './components/WorkspaceInvitePanel'
 import { isOwnerRole, useAuth } from './context/AuthContext'
 import { useChat } from './hooks/useChat'
 import { useDocuments } from './hooks/useDocuments'
+
+const ChatWindow = lazy(() =>
+  import('./components/ChatWindow').then((module) => ({ default: module.ChatWindow })),
+)
+const AnalyticsDashboard = lazy(() =>
+  import('./components/AnalyticsDashboard').then((module) => ({ default: module.AnalyticsDashboard })),
+)
+const RetrievedContextPanel = lazy(() =>
+  import('./components/RetrievedContextPanel').then((module) => ({ default: module.RetrievedContextPanel })),
+)
 
 function App() {
   const { user } = useAuth()
@@ -238,23 +245,50 @@ function AuthenticatedApp() {
               />
             </div>
             <div className="grid h-full min-h-0 min-w-0 flex-1 grid-rows-[minmax(0,1fr)_16rem] gap-4">
-              <ChatWindow
-                messages={chat.messages}
-                citations={chat.citations}
-                loading={chat.loading}
-                error={chat.error}
-                onSend={chat.sendMessage}
-                suggestionsRevision={suggestionsRevision}
-                departmentFilter={hasAllDepartmentAccess ? departmentFilter : undefined}
-              />
+              <Suspense
+                fallback={
+                  <div
+                    className="min-h-0 animate-pulse rounded-3xl border border-slate-800 bg-slate-900/60"
+                    aria-label="Loading chat"
+                  />
+                }
+              >
+                <ChatWindow
+                  messages={chat.messages}
+                  citations={chat.citations}
+                  loading={chat.loading}
+                  error={chat.error}
+                  onSend={chat.sendMessage}
+                  suggestionsRevision={suggestionsRevision}
+                  departmentFilter={hasAllDepartmentAccess ? departmentFilter : undefined}
+                />
+              </Suspense>
               <div className="h-64 shrink-0">
-                <RetrievedContextPanel chunks={chat.retrievedChunks} />
+                <Suspense
+                  fallback={
+                    <div
+                      className="h-full animate-pulse rounded-3xl border border-slate-800 bg-slate-900/60"
+                      aria-label="Loading context"
+                    />
+                  }
+                >
+                  <RetrievedContextPanel chunks={chat.retrievedChunks} />
+                </Suspense>
               </div>
             </div>
           </div>
         ) : (
           <div className="space-y-6">
-            <AnalyticsDashboard />
+            <Suspense
+              fallback={
+                <div
+                  className="min-h-96 animate-pulse rounded-3xl border border-slate-800 bg-slate-900/60"
+                  aria-label="Loading dashboard"
+                />
+              }
+            >
+              <AnalyticsDashboard />
+            </Suspense>
             {isOwner && <WorkspaceInvitePanel />}
           </div>
         )}
