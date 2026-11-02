@@ -1,3 +1,4 @@
+import { isAxiosError } from 'axios'
 import { useState } from 'react'
 import { isOwnerRole, type AccountType, useAuth } from '../context/AuthContext'
 
@@ -16,6 +17,15 @@ export function LoginScreen() {
   const showOwnerSetupCode = (isRegistering && isOwnerAccount) || (!isRegistering && isOwnerActivation)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const passwordRequirements = [
+    { label: 'At least 12 characters', met: password.length >= 12 },
+    { label: 'At least one uppercase letter', met: /[A-Z]/.test(password) },
+    { label: 'At least one lowercase letter', met: /[a-z]/.test(password) },
+    { label: 'At least one number', met: /\d/.test(password) },
+    { label: 'At least one symbol', met: /[^A-Za-z0-9]/.test(password) },
+  ]
+  const passwordIsStrong = passwordRequirements.every((requirement) => requirement.met)
+  const passwordsMatch = password.length > 0 && password === passwordConfirmation
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -39,12 +49,15 @@ export function LoginScreen() {
           isOwnerActivation ? accountType : undefined,
         )
       }
-    } catch {
-      setError(isRegistering && isOwnerAccount
-        ? 'Owner account creation requires an authorized email and a valid setup code.'
-        : isRegistering
-          ? 'Unable to create your account. Check your details, use a unique email, and try again.'
-          : 'Invalid email or password.')
+    } catch (requestError) {
+      const validationMessage = isAxiosError<{ errors?: Record<string, string[]> }>(requestError)
+        ? Object.values(requestError.response?.data?.errors ?? {}).flat()[0]
+        : undefined
+      setError(isRegistering
+        ? validationMessage ?? (isOwnerAccount
+          ? 'Owner account creation requires an authorized email and a valid setup code.'
+          : 'Unable to create your account. Check your details, use a unique email, and try again.')
+        : 'Invalid email or password.')
     } finally {
       setLoading(false)
     }
@@ -129,6 +142,16 @@ export function LoginScreen() {
               className="mt-1 w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-emerald-400"
             />
           </label>
+          {isRegistering && (
+            <ul aria-live="polite" className="space-y-1 text-xs">
+              {passwordRequirements.map(({ label, met }) => (
+                <li key={label} className={met ? 'text-emerald-300' : 'text-slate-400'}>
+                  <span aria-hidden="true">{met ? '✓' : '○'} </span>
+                  {label}
+                </li>
+              ))}
+            </ul>
+          )}
           {showOwnerSetupCode && (
             <label className="block text-sm text-slate-300">
               Company owner setup code
@@ -159,6 +182,11 @@ export function LoginScreen() {
                 onChange={(event) => setPasswordConfirmation(event.target.value)}
                 className="mt-1 w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-emerald-400"
               />
+              {passwordConfirmation.length > 0 && (
+                <span className={`mt-1 block text-xs ${passwordsMatch ? 'text-emerald-300' : 'text-red-300'}`}>
+                  {passwordsMatch ? 'Passwords match.' : 'Passwords do not match.'}
+                </span>
+              )}
             </label>
           )}
           <label className="flex items-center gap-2 text-sm text-slate-400">
@@ -175,10 +203,10 @@ export function LoginScreen() {
               Owner access is granted only when your email is on the authorized owner list and you provide the setup code.
             </p>
           )}
-          {error && <p className="text-sm text-red-300">{error}</p>}
+          {error && <p role="alert" className="text-sm text-red-300">{error}</p>}
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || (isRegistering && (!passwordIsStrong || !passwordsMatch))}
             className="w-full rounded-xl bg-emerald-500 px-4 py-3 font-semibold text-slate-950 transition hover:bg-emerald-400 disabled:opacity-50"
           >
             {loading ? 'Please wait…' : isRegistering ? 'Create account' : 'Sign in'}

@@ -22,7 +22,11 @@ class AuthController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'confirmed', Password::min(12)->max(128)],
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(12)->max(128)->letters()->mixedCase()->numbers()->symbols(),
+            ],
             'owner_setup_code' => ['nullable', 'string', 'max:255'],
             'account_type' => ['nullable', 'in:employee,company_owner,factory_owner'],
         ]);

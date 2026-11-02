@@ -4,7 +4,7 @@ Texo helps Bangladesh's textile and apparel teams organize department-specific d
 
 **Live website:** [Open Texo](https://frontend-react-rho-two.vercel.app/)
 
-Company Owner and Factory Owner accounts can upload documents. Set `TEXO_OWNER_EMAILS` to a comma-separated allowlist and configure a long random `TEXO_OWNER_SETUP_CODE` in the Laravel environment. During registration, users can choose Standard User, Company Owner, or Factory Owner; owner types require an allowlisted email and the setup code. Public registration cannot grant privileged owner access by selecting a dropdown value alone. All accounts currently use the same shared workspace; separate company/factory data isolation is not enabled.
+Company Owner and Factory Owner accounts can upload documents. Set `TEXO_OWNER_EMAILS` to a comma-separated allowlist and configure a long random `TEXO_OWNER_SETUP_CODE` in the Laravel environment. During registration, users can choose Standard User, Company Owner, or Factory Owner; owner types require an allowlisted email and the setup code. Public registration cannot grant privileged owner access by selecting a dropdown value alone. Registration passwords must be 12-128 characters and contain uppercase and lowercase letters, a number, and a symbol. All accounts currently use the same shared workspace; separate company/factory data isolation is not enabled.
 
 ## Stack
 

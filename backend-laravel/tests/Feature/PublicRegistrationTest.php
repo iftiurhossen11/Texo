@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Tests\TestCase;
 
 class PublicRegistrationTest extends TestCase
@@ -15,8 +16,8 @@ class PublicRegistrationTest extends TestCase
         $response = $this->postJson('/api/register', [
             'name' => 'Texo User',
             'email' => 'NewUser@Example.com',
-            'password' => 'a-unique-password-123',
-            'password_confirmation' => 'a-unique-password-123',
+            'password' => 'Texo-Strong-Pass-123',
+            'password_confirmation' => 'Texo-Strong-Pass-123',
             'role' => 'gm',
         ]);
 
@@ -51,6 +52,30 @@ class PublicRegistrationTest extends TestCase
             ->assertJsonValidationErrors(['email', 'password']);
     }
 
+    public function test_registration_rejects_passwords_without_all_required_character_types(): void
+    {
+        $this->withoutMiddleware(ThrottleRequests::class);
+
+        $weakPasswords = [
+            'short' => 'Tx-1a',
+            'no-uppercase' => 'texo-strong-pass-123',
+            'no-lowercase' => 'TEXO-STRONG-PASS-123',
+            'no-number' => 'Texo-Strong-Password!',
+            'no-symbol' => 'TexoStrongPassword123',
+            'too-long' => str_repeat('Ta1!', 33),
+        ];
+
+        foreach ($weakPasswords as $case => $password) {
+            $this->postJson('/api/register', [
+                'name' => 'Texo User',
+                'email' => "{$case}@example.com",
+                'password' => $password,
+                'password_confirmation' => $password,
+            ])->assertUnprocessable()
+                ->assertJsonValidationErrors(['password']);
+        }
+    }
+
     public function test_configured_owner_email_requires_setup_code_to_register_as_owner(): void
     {
         config([
@@ -61,8 +86,8 @@ class PublicRegistrationTest extends TestCase
         $this->postJson('/api/register', [
             'name' => 'Texo Owner',
             'email' => 'Owner@Example.com',
-            'password' => 'a-unique-password-123',
-            'password_confirmation' => 'a-unique-password-123',
+            'password' => 'Texo-Strong-Pass-123',
+            'password_confirmation' => 'Texo-Strong-Pass-123',
             'role' => 'admin',
             'account_type' => 'company_owner',
         ])->assertUnprocessable()
@@ -71,8 +96,8 @@ class PublicRegistrationTest extends TestCase
         $this->postJson('/api/register', [
             'name' => 'Texo Owner',
             'email' => 'Owner@Example.com',
-            'password' => 'a-unique-password-123',
-            'password_confirmation' => 'a-unique-password-123',
+            'password' => 'Texo-Strong-Pass-123',
+            'password_confirmation' => 'Texo-Strong-Pass-123',
             'role' => 'admin',
             'account_type' => 'company_owner',
             'owner_setup_code' => 'a-strong-owner-setup-code',
@@ -90,8 +115,8 @@ class PublicRegistrationTest extends TestCase
         $this->postJson('/api/register', [
             'name' => 'Unapproved Owner',
             'email' => 'someone@example.com',
-            'password' => 'a-unique-password-123',
-            'password_confirmation' => 'a-unique-password-123',
+            'password' => 'Texo-Strong-Pass-123',
+            'password_confirmation' => 'Texo-Strong-Pass-123',
             'account_type' => 'factory_owner',
             'owner_setup_code' => 'a-strong-owner-setup-code',
         ])->assertUnprocessable()
@@ -110,8 +135,8 @@ class PublicRegistrationTest extends TestCase
         $this->postJson('/api/register', [
             'name' => 'Texo Factory Owner',
             'email' => 'owner@example.com',
-            'password' => 'a-unique-password-123',
-            'password_confirmation' => 'a-unique-password-123',
+            'password' => 'Texo-Strong-Pass-123',
+            'password_confirmation' => 'Texo-Strong-Pass-123',
             'account_type' => 'factory_owner',
             'owner_setup_code' => 'a-strong-owner-setup-code',
         ])->assertCreated()
@@ -127,13 +152,13 @@ class PublicRegistrationTest extends TestCase
         User::query()->create([
             'name' => 'Texo Owner',
             'email' => 'owner@example.com',
-            'password' => 'a-unique-password-123',
+            'password' => 'Texo-Strong-Pass-123',
             'role' => 'company_owner',
         ]);
 
         $this->postJson('/api/login', [
             'email' => 'owner@example.com',
-            'password' => 'a-unique-password-123',
+            'password' => 'Texo-Strong-Pass-123',
             'owner_setup_code' => 'a-strong-owner-setup-code',
             'account_type' => 'factory_owner',
         ])->assertOk()
@@ -149,19 +174,19 @@ class PublicRegistrationTest extends TestCase
         User::query()->create([
             'name' => 'Texo Owner',
             'email' => 'owner@example.com',
-            'password' => 'a-unique-password-123',
+            'password' => 'Texo-Strong-Pass-123',
             'role' => 'employee',
         ]);
 
         $this->postJson('/api/login', [
             'email' => 'owner@example.com',
-            'password' => 'a-unique-password-123',
+            'password' => 'Texo-Strong-Pass-123',
         ])->assertOk()
             ->assertJsonPath('user.role', 'employee');
 
         $this->postJson('/api/login', [
             'email' => 'owner@example.com',
-            'password' => 'a-unique-password-123',
+            'password' => 'Texo-Strong-Pass-123',
             'owner_setup_code' => 'a-strong-owner-setup-code',
         ])->assertOk()
             ->assertJsonPath('user.role', 'company_owner');
