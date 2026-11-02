@@ -6,6 +6,8 @@ Texo helps Bangladesh's textile and apparel teams organize department-specific d
 
 Company Owner and Factory Owner accounts can upload documents. Set `TEXO_OWNER_EMAILS` to a comma-separated allowlist and configure a long random `TEXO_OWNER_SETUP_CODE` in the Laravel environment. During registration, users can choose Standard User, Company Owner, or Factory Owner; owner types require an allowlisted email and the setup code. Public registration cannot grant privileged owner access by selecting a dropdown value alone. Registration passwords must be 12-128 characters and contain uppercase and lowercase letters, a number, and a symbol. All accounts currently use the same shared workspace; separate company/factory data isolation is not enabled.
 
+Password recovery uses Laravel's expiring, throttled reset tokens and revokes existing API tokens after a successful reset. Configure `APP_FRONTEND_URL`, `MAIL_MAILER=smtp`, `MAIL_HOST`, `MAIL_FROM_ADDRESS`, and the SMTP credentials in the production environment before using the reset-email flow. Recovery fails closed while only the `log` mailer or a local frontend URL is configured; reset tokens are never returned by the API or written to application logs.
+
 ## Stack
 
 | Layer | Tech |

@@ -1,15 +1,22 @@
 import { isAxiosError } from 'axios'
 import { useState } from 'react'
+import { api } from '../api/client'
 import { isOwnerRole, type AccountType, useAuth } from '../context/AuthContext'
 
 export function LoginScreen() {
   const { login, register } = useAuth()
-  const isOwnerActivation = new URLSearchParams(window.location.search).get('owner-activation') === '1'
+  const searchParams = new URLSearchParams(window.location.search)
+  const isOwnerActivation = searchParams.get('owner-activation') === '1'
+  const resetToken = searchParams.get('token') ?? ''
   const [isRegistering, setIsRegistering] = useState(false)
+  const [isForgotPassword, setIsForgotPassword] = useState(false)
+  const [isResettingPassword, setIsResettingPassword] = useState(searchParams.get('password-reset') === '1')
+  const [resetCompleted, setResetCompleted] = useState(false)
+  const [recoveryMessage, setRecoveryMessage] = useState<string | null>(null)
   const [accountType, setAccountType] = useState<AccountType>(() => isOwnerActivation ? 'company_owner' : 'employee')
   const [showPasswords, setShowPasswords] = useState(false)
   const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState(searchParams.get('email') ?? '')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
   const [ownerSetupCode, setOwnerSetupCode] = useState('')
@@ -26,13 +33,29 @@ export function LoginScreen() {
   ]
   const passwordIsStrong = passwordRequirements.every((requirement) => requirement.met)
   const passwordsMatch = password.length > 0 && password === passwordConfirmation
+  const isRecoveryFlow = isForgotPassword || isResettingPassword || resetCompleted
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault()
     setError(null)
     setLoading(true)
     try {
-      if (isRegistering) {
+      if (isForgotPassword) {
+        const { data } = await api.post<{ message: string }>('/forgot-password', { email })
+        setRecoveryMessage(data.message)
+      } else if (isResettingPassword) {
+        const { data } = await api.post<{ message: string }>('/reset-password', {
+          token: resetToken,
+          email,
+          password,
+          password_confirmation: passwordConfirmation,
+        })
+        setRecoveryMessage(data.message)
+        setIsResettingPassword(false)
+        setResetCompleted(true)
+        setPassword('')
+        setPasswordConfirmation('')
+      } else if (isRegistering) {
         await register(
           name,
           email,
@@ -53,7 +76,12 @@ export function LoginScreen() {
       const validationMessage = isAxiosError<{ errors?: Record<string, string[]> }>(requestError)
         ? Object.values(requestError.response?.data?.errors ?? {}).flat()[0]
         : undefined
-      setError(isRegistering
+      const responseMessage = isAxiosError<{ message?: string }>(requestError)
+        ? requestError.response?.data?.message
+        : undefined
+      setError(isRecoveryFlow
+        ? validationMessage ?? responseMessage ?? 'Unable to process the password recovery request. Please try again.'
+        : isRegistering
         ? validationMessage ?? (isOwnerAccount
           ? 'Owner account creation requires an authorized email and a valid setup code.'
           : 'Unable to create your account. Check your details, use a unique email, and try again.')
@@ -68,19 +96,53 @@ export function LoginScreen() {
       <section className="w-full max-w-md rounded-3xl border border-slate-700 bg-slate-900 p-8 shadow-2xl">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-400">TEXO</p>
         <h1 className="mt-3 text-3xl font-bold text-white">
-          {isRegistering
+          {isForgotPassword
+            ? resetCompleted
+              ? 'Password updated'
+              : 'Reset your password'
+            : isResettingPassword
+              ? 'Choose a new password'
+              : isRegistering
             ? isOwnerAccount ? `Create your ${accountType === 'company_owner' ? 'company' : 'factory'} owner account` : 'Create your Texo account'
             : 'Secure workspace login'}
         </h1>
         <p className="mt-2 text-sm text-slate-400">
-          {isRegistering
+          {isForgotPassword
+            ? resetCompleted
+              ? 'Your password has been updated. Sign in with your new password.'
+              : 'Enter your account email and we will send a password reset link if an account exists.'
+            : isResettingPassword
+              ? 'Choose a strong new password for your Texo account.'
+              : isRegistering
             ? isOwnerAccount
               ? `Create the ${accountType === 'company_owner' ? 'company' : 'factory'} owner account with the authorized owner email and setup code.`
               : 'Create a standard employee account to access general factory documents and AI chat.'
             : 'Sign in to access your role-based factory knowledge workspace.'}
         </p>
-        <form className="mt-6 space-y-4" onSubmit={submit}>
-          {(isRegistering || isOwnerActivation) && (
+        {recoveryMessage && (
+          <div role="status" className="mt-4 rounded-xl border border-emerald-700/50 bg-emerald-950/40 p-3 text-sm text-emerald-200">
+            {recoveryMessage}
+            {!isResettingPassword && (
+              <button
+                type="button"
+                onClick={() => {
+                  setIsForgotPassword(false)
+                  setResetCompleted(false)
+                  setRecoveryMessage(null)
+                  setError(null)
+                  if (searchParams.has('password-reset')) {
+                    window.history.replaceState({}, '', window.location.pathname)
+                  }
+                }}
+                className="ml-2 font-semibold underline"
+              >
+                Back to sign in
+              </button>
+            )}
+          </div>
+        )}
+        {!recoveryMessage && <form className="mt-6 space-y-4" onSubmit={submit}>
+          {!isRecoveryFlow && (isRegistering || isOwnerActivation) && (
             <label className="block text-sm text-slate-300">
               Account type
               <select
@@ -103,7 +165,7 @@ export function LoginScreen() {
               </select>
             </label>
           )}
-          {isRegistering && (
+          {!isRecoveryFlow && isRegistering && (
             <label className="block text-sm text-slate-300">
               Full name
               <input
@@ -124,25 +186,26 @@ export function LoginScreen() {
               required
               autoComplete="email"
               maxLength={255}
+              readOnly={isResettingPassword}
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               className="mt-1 w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-emerald-400"
             />
           </label>
-          <label className="block text-sm text-slate-300">
+          {!isForgotPassword && <label className="block text-sm text-slate-300">
             Password
             <input
               type={showPasswords ? 'text' : 'password'}
               required
-              autoComplete={isRegistering ? 'new-password' : 'current-password'}
-              minLength={isRegistering ? 12 : undefined}
+              autoComplete={isRegistering || isResettingPassword ? 'new-password' : 'current-password'}
+              minLength={isRegistering || isResettingPassword ? 12 : undefined}
               maxLength={128}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               className="mt-1 w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-emerald-400"
             />
-          </label>
-          {isRegistering && (
+          </label>}
+          {(isRegistering || isResettingPassword) && (
             <ul aria-live="polite" className="space-y-1 text-xs">
               {passwordRequirements.map(({ label, met }) => (
                 <li key={label} className={met ? 'text-emerald-300' : 'text-slate-400'}>
@@ -152,7 +215,7 @@ export function LoginScreen() {
               ))}
             </ul>
           )}
-          {showOwnerSetupCode && (
+          {!isRecoveryFlow && showOwnerSetupCode && (
             <label className="block text-sm text-slate-300">
               Company owner setup code
               <input
@@ -169,7 +232,7 @@ export function LoginScreen() {
               </span>
             </label>
           )}
-          {isRegistering && (
+          {(isRegistering || isResettingPassword) && (
             <label className="block text-sm text-slate-300">
               Confirm password
               <input
@@ -189,30 +252,53 @@ export function LoginScreen() {
               )}
             </label>
           )}
-          <label className="flex items-center gap-2 text-sm text-slate-400">
+          {!isForgotPassword && <label className="flex items-center gap-2 text-sm text-slate-400">
             <input
               type="checkbox"
               checked={showPasswords}
               onChange={(event) => setShowPasswords(event.target.checked)}
               className="h-4 w-4 rounded border-slate-600 bg-slate-950 text-emerald-400 focus:ring-emerald-400"
             />
-            Show password{isRegistering ? 's' : ''}
-          </label>
-          {isRegistering && isOwnerAccount && (
+            Show password{isRegistering || isResettingPassword ? 's' : ''}
+          </label>}
+          {!isRecoveryFlow && isRegistering && isOwnerAccount && (
             <p className="text-xs text-slate-400">
               Owner access is granted only when your email is on the authorized owner list and you provide the setup code.
             </p>
           )}
           {error && <p role="alert" className="text-sm text-red-300">{error}</p>}
-          <button
+          {!recoveryMessage && <button
             type="submit"
-            disabled={loading || (isRegistering && (!passwordIsStrong || !passwordsMatch))}
+            disabled={loading || ((isRegistering || isResettingPassword) && (!passwordIsStrong || !passwordsMatch))}
             className="w-full rounded-xl bg-emerald-500 px-4 py-3 font-semibold text-slate-950 transition hover:bg-emerald-400 disabled:opacity-50"
           >
-            {loading ? 'Please wait…' : isRegistering ? 'Create account' : 'Sign in'}
-          </button>
-        </form>
-        <p className="mt-6 text-center text-sm text-slate-400">
+            {loading
+              ? 'Please wait…'
+              : isForgotPassword
+                ? 'Send reset link'
+                : isResettingPassword
+                  ? 'Save new password'
+                  : isRegistering
+                    ? 'Create account'
+                    : 'Sign in'}
+          </button>}
+        </form>}
+        {!isRecoveryFlow && !isOwnerActivation && !isRegistering && (
+          <p className="mt-4 text-center text-sm">
+            <button
+              type="button"
+              onClick={() => {
+                setIsForgotPassword(true)
+                setRecoveryMessage(null)
+                setError(null)
+              }}
+              className="font-semibold text-emerald-300 hover:text-emerald-200"
+            >
+              Forgot password?
+            </button>
+          </p>
+        )}
+        {!isRecoveryFlow && <p className="mt-6 text-center text-sm text-slate-400">
           {isRegistering ? 'Already have an account?' : 'New to Texo?'}{' '}
           <button
             type="button"
@@ -221,6 +307,7 @@ export function LoginScreen() {
                 if (current) setAccountType('employee')
                 return !current
               })
+              setRecoveryMessage(null)
               setOwnerSetupCode('')
               setError(null)
             }}
@@ -228,7 +315,24 @@ export function LoginScreen() {
           >
             {isRegistering ? 'Sign in' : 'Create an account'}
           </button>
-        </p>
+        </p>}
+        {isForgotPassword && (
+          <p className="mt-6 text-center text-sm text-slate-400">
+            Remembered it?{' '}
+            <button
+              type="button"
+              onClick={() => {
+                setIsForgotPassword(false)
+                setResetCompleted(false)
+                setRecoveryMessage(null)
+                setError(null)
+              }}
+              className="font-semibold text-emerald-300 hover:text-emerald-200"
+            >
+              Back to sign in
+            </button>
+          </p>
+        )}
       </section>
     </main>
   )

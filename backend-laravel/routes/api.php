@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\AnalyticsController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\HealthController;
-use App\Http\Controllers\Api\AnalyticsController;
+use App\Http\Controllers\Api\PasswordRecoveryController;
 use App\Http\Controllers\Api\SuggestedQuestionsController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,10 @@ Route::get('/health', HealthController::class);
 Route::post('/register', [AuthController::class, 'register'])
     ->middleware('throttle:5,1');
 Route::post('/login', [AuthController::class, 'login'])
+    ->middleware('throttle:10,1');
+Route::post('/forgot-password', [PasswordRecoveryController::class, 'sendResetLink'])
+    ->middleware('throttle:5,1');
+Route::post('/reset-password', [PasswordRecoveryController::class, 'reset'])
     ->middleware('throttle:10,1');
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
